@@ -3,95 +3,135 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Действия со смешанными числами</title>
+    <title>Математическая раскраска: Дроби</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="presentation-container">
-        <!-- СЛАЙД 1: Название темы -->
+        <!-- СЛАЙД 1: ТИТУЛЬНЫЙ -->
         <section class="slide active" id="slide1">
             <div class="slide-content">
-                <div class="title-container">
-                    <h1 class="main-title">Действия со смешанными числами</h1>
-                    <div class="math-symbols">
-                        <div class="symbol">½</div>
-                        <div class="symbol">+</div>
-                        <div class="symbol">¾</div>
-                        <div class="symbol">=</div>
-                        <div class="symbol">1¼</div>
+                <div class="title-card">
+                    <div class="math-animation">
+                        <div class="fraction-anim">½</div>
+                        <div class="fraction-anim">+</div>
+                        <div class="fraction-anim">¼</div>
+                        <div class="fraction-anim">=</div>
+                        <div class="fraction-anim">¾</div>
                     </div>
-                    <div class="fraction-example">
-                        <div class="fraction">3<span class="fraction-line">1</span>2</div>
-                        <span class="operation">+</span>
-                        <div class="fraction">2<span class="fraction-line">3</span>4</div>
-                        <span class="operation">=</span>
-                        <div class="fraction">6<span class="fraction-line">1</span>4</div>
+                    <h1 class="main-title">Математическая<br>Раскраска</h1>
+                    <h2 class="subtitle">Действия с дробями</h2>
+                    <div class="info-box">
+                        <div class="info-item">
+                            <i class="fas fa-paint-brush"></i>
+                            <p>Решай примеры</p>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-palette"></i>
+                            <p>Раскрашивай картинку</p>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-mobile-alt"></i>
+                            <p>Работает на телефоне</p>
+                        </div>
                     </div>
-                    <div class="student-info">
-                        <p>Интерактивная презентация</p>
-                        <p>Математика 5-6 класс</p>
+                    <div class="start-button">
+                        <button id="start-btn"><i class="fas fa-play"></i> Начать игру</button>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- СЛАЙД 2: Инструкция -->
+        <!-- СЛАЙД 2: ИГРА -->
         <section class="slide" id="slide2">
             <div class="slide-content">
-                <h1 class="slide-title">Инструкция по работе со смешанными числами</h1>
-                
-                <div class="instructions-container">
-                    <div class="instruction-section">
-                        <h2><i class="fas fa-calculator"></i> Основные понятия</h2>
-                        <div class="concept-card">
-                            <h3>Смешанное число</h3>
-                            <p>Число, состоящее из целой части и правильной дроби.</p>
-                            <div class="example">2½ = 2 + ½</div>
-                        </div>
-                        <div class="concept-card">
-                            <h3>Правильная дробь</h3>
-                            <p>Дробь, у которой числитель меньше знаменателя.</p>
-                            <div class="example">¾, ½, ⅔</div>
+                <div class="game-container">
+                    <div class="game-header">
+                        <h1><i class="fas fa-gamepad"></i> Математическая раскраска</h1>
+                        <div class="progress-info">
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="progress-fill">0%</div>
+                            </div>
+                            <div class="stats">
+                                <span class="stat"><i class="fas fa-check-circle"></i> <span id="solved">0</span>/10</span>
+                                <span class="stat"><i class="fas fa-star"></i> <span id="score">0</span> баллов</span>
+                            </div>
                         </div>
                     </div>
-                    
-                    <div class="instruction-section">
-                        <h2><i class="fas fa-list-ol"></i> Правила действий</h2>
-                        <ol class="rules-list">
-                            <li>
-                                <strong>Сложение:</strong>
-                                <p>Складываем целые части отдельно, дробные - отдельно.</p>
-                                <div class="example-small">3½ + 2¾ = (3+2) + (½+¾) = 5 + 1¼ = 6¼</div>
-                            </li>
-                            <li>
-                                <strong>Вычитание:</strong>
-                                <p>Вычитаем целые части и дробные части отдельно.</p>
-                                <div class="example-small">5¾ - 2½ = (5-2) + (¾-½) = 3 + ¼ = 3¼</div>
-                            </li>
-                            <li>
-                                <strong>Приведение к общему знаменателю:</strong>
-                                <p>Если у дробей разные знаменатели, приводим их к общему.</p>
-                                <div class="example-small">½ + ⅓ = ³/₆ + ²/₆ = ⁵/₆</div>
-                            </li>
-                        </ol>
-                    </div>
-                    
-                    <div class="instruction-section">
-                        <h2><i class="fas fa-lightbulb"></i> Полезные советы</h2>
-                        <div class="tips">
-                            <div class="tip">
-                                <i class="fas fa-check-circle"></i>
-                                <p>Всегда проверяйте, можно ли сократить дробь</p>
+
+                    <div class="game-body">
+                        <!-- КАНВАС ДЛЯ РИСОВАНИЯ -->
+                        <div class="coloring-section">
+                            <div class="canvas-wrapper">
+                                <canvas id="drawing-canvas" width="800" height="600"></canvas>
                             </div>
-                            <div class="tip">
-                                <i class="fas fa-check-circle"></i>
-                                <p>Переводите неправильные дроби в смешанные числа</p>
+                            
+                            <!-- ПАНЕЛЬ ИНСТРУМЕНТОВ -->
+                            <div class="tools-section">
+                                <div class="tool-category">
+                                    <h3><i class="fas fa-paint-brush"></i> Инструменты</h3>
+                                    <div class="tools-grid">
+                                        <button class="tool-btn active" data-tool="brush">
+                                            <i class="fas fa-paint-brush"></i>
+                                            <span>Кисть</span>
+                                        </button>
+                                        <button class="tool-btn" data-tool="bucket">
+                                            <i class="fas fa-fill-drip"></i>
+                                            <span>Заливка</span>
+                                        </button>
+                                        <button class="tool-btn" data-tool="eraser">
+                                            <i class="fas fa-eraser"></i>
+                                            <span>Ластик</span>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="tool-category">
+                                    <h3><i class="fas fa-palette"></i> Цвета</h3>
+                                    <div class="colors-grid">
+                                        <!-- Цвета будут добавлены через JS -->
+                                    </div>
+                                </div>
+
+                                <div class="tool-category">
+                                    <h3><i class="fas fa-sliders-h"></i> Настройки</h3>
+                                    <div class="slider-group">
+                                        <label>Размер кисти: <span id="brush-size-value">15</span>px</label>
+                                        <input type="range" id="brush-size" min="1" max="50" value="15">
+                                    </div>
+                                    <button class="action-btn" id="clear-btn">
+                                        <i class="fas fa-trash"></i> Очистить
+                                    </button>
+                                    <button class="action-btn" id="hint-btn">
+                                        <i class="fas fa-lightbulb"></i> Подсказка
+                                    </button>
+                                </div>
                             </div>
-                            <div class="tip">
-                                <i class="fas fa-check-circle"></i>
-                                <p>Не забывайте про общий знаменатель</p>
+                        </div>
+
+                        <!-- ЗАДАНИЯ -->
+                        <div class="problems-section">
+                            <h3><i class="fas fa-tasks"></i> Реши примеры</h3>
+                            <p class="instructions">Каждый ответ - свой цвет. Реши правильно, чтобы раскрасить!</p>
+                            
+                            <div class="problems-grid">
+                                <!-- Задачи будут добавлены через JS -->
+                            </div>
+
+                            <div class="color-legend">
+                                <h4><i class="fas fa-info-circle"></i> Легенда цветов</h4>
+                                <div class="legend-items">
+                                    <!-- Легенда будет заполнена через JS -->
+                                </div>
+                            </div>
+
+                            <div class="mobile-tips">
+                                <h4><i class="fas fa-mobile-alt"></i> Для мобильных:</h4>
+                                <p>• Касайтесь для рисования</p>
+                                <p>• Двойное касание для заливки</p>
+                                <p>• Параллельное касание для ластика</p>
                             </div>
                         </div>
                     </div>
@@ -99,120 +139,80 @@
             </div>
         </section>
 
-        <!-- СЛАЙД 3: Интерактивная раскраска -->
+        <!-- СЛАЙД 3: РЕЗУЛЬТАТЫ -->
         <section class="slide" id="slide3">
             <div class="slide-content">
-                <h1 class="slide-title">Интерактивная раскраска</h1>
-                <p class="subtitle">Решай примеры и раскрашивай картинку!</p>
-                
-                <div class="interactive-container">
-                    <div class="coloring-area">
-                        <div class="canvas-container">
-                            <canvas id="coloring-canvas" width="800" height="500"></canvas>
+                <div class="result-container">
+                    <div class="result-card">
+                        <div class="result-header">
+                            <i class="fas fa-trophy"></i>
+                            <h1>Поздравляем!</h1>
+                            <p class="result-subtitle">Ты завершил математическую раскраску</p>
                         </div>
                         
-                        <div class="tools-panel">
-                            <h3><i class="fas fa-paint-brush"></i> Инструменты</h3>
-                            <div class="tools">
-                                <button class="tool-btn active" data-tool="brush" title="Кисть">
+                        <div class="result-stats">
+                            <div class="stat-card">
+                                <div class="stat-icon" style="background: #FF6B6B;">
+                                    <i class="fas fa-check"></i>
+                                </div>
+                                <div class="stat-info">
+                                    <h3>Решено примеров</h3>
+                                    <p class="stat-value" id="final-solved">0/10</p>
+                                </div>
+                            </div>
+                            
+                            <div class="stat-card">
+                                <div class="stat-icon" style="background: #4ECDC4;">
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <div class="stat-info">
+                                    <h3>Набрано баллов</h3>
+                                    <p class="stat-value" id="final-score">0</p>
+                                </div>
+                            </div>
+                            
+                            <div class="stat-card">
+                                <div class="stat-icon" style="background: #FFD166;">
                                     <i class="fas fa-paint-brush"></i>
-                                </button>
-                                <button class="tool-btn" data-tool="bucket" title="Заливка">
-                                    <i class="fas fa-fill-drip"></i>
-                                </button>
-                                <button class="tool-btn" data-tool="eraser" title="Ластик">
-                                    <i class="fas fa-eraser"></i>
-                                </button>
-                                <button class="tool-btn" id="clear-btn" title="Очистить всё">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </div>
-                            
-                            <div class="color-picker">
-                                <h4><i class="fas fa-palette"></i> Палитра цветов</h4>
-                                <div class="colors">
-                                    <div class="color" data-color="#FF6B6B" style="background-color: #FF6B6B;"></div>
-                                    <div class="color" data-color="#4ECDC4" style="background-color: #4ECDC4;"></div>
-                                    <div class="color" data-color="#FFD166" style="background-color: #FFD166;"></div>
-                                    <div class="color" data-color="#06D6A0" style="background-color: #06D6A0;"></div>
-                                    <div class="color" data-color="#118AB2" style="background-color: #118AB2;"></div>
-                                    <div class="color" data-color="#073B4C" style="background-color: #073B4C;"></div>
-                                    <div class="color" data-color="#EF476F" style="background-color: #EF476F;"></div>
-                                    <div class="color" data-color="#7209B7" style="background-color: #7209B7;"></div>
                                 </div>
-                                <div class="custom-color">
-                                    <label for="custom-color">Свой цвет:</label>
-                                    <input type="color" id="custom-color" value="#FF6B6B">
+                                <div class="stat-info">
+                                    <h3>Раскрашено областей</h3>
+                                    <p class="stat-value" id="final-colored">0%</p>
                                 </div>
                             </div>
-                            
-                            <div class="brush-size">
-                                <h4><i class="fas fa-expand-alt"></i> Размер кисти</h4>
-                                <input type="range" id="brush-size" min="1" max="50" value="10">
-                                <span id="brush-size-value">10px</span>
+                        </div>
+
+                        <div class="result-image">
+                            <h3><i class="fas fa-image"></i> Твоя работа:</h3>
+                            <div class="preview-wrapper">
+                                <canvas id="result-canvas" width="400" height="300"></canvas>
                             </div>
                         </div>
-                    </div>
-                    
-                    <div class="math-problems">
-                        <h3><i class="fas fa-tasks"></i> Математические задания</h3>
-                        <div class="problems-list">
-                            <div class="problem">
-                                <p>1. <span class="expression">2½ + 1¾ = </span></p>
-                                <input type="text" class="answer-input" data-answer="4¼">
-                                <span class="result-icon"></span>
-                            </div>
-                            <div class="problem">
-                                <p>2. <span class="expression">3⅔ - 1½ = </span></p>
-                                <input type="text" class="answer-input" data-answer="2⅙">
-                                <span class="result-icon"></span>
-                            </div>
-                            <div class="problem">
-                                <p>3. <span class="expression">4 × ¾ = </span></p>
-                                <input type="text" class="answer-input" data-answer="3">
-                                <span class="result-icon"></span>
-                            </div>
-                            <div class="problem">
-                                <p>4. <span class="expression">5 ÷ ½ = </span></p>
-                                <input type="text" class="answer-input" data-answer="10">
-                                <span class="result-icon"></span>
-                            </div>
-                            <div class="problem">
-                                <p>5. <span class="expression">2¾ + 1½ = </span></p>
-                                <input type="text" class="answer-input" data-answer="4¼">
-                                <span class="result-icon"></span>
-                            </div>
-                        </div>
-                        
-                        <div class="hint">
-                            <i class="fas fa-info-circle"></i>
-                            <p>Реши все примеры правильно, чтобы разблокировать все цвета!</p>
-                        </div>
-                        
-                        <div class="progress">
-                            <div class="progress-bar">
-                                <div class="progress-fill" id="progress-fill"></div>
-                            </div>
-                            <div class="progress-text">
-                                Решено: <span id="solved-count">0</span>/5
-                            </div>
+
+                        <div class="result-actions">
+                            <button class="restart-btn" id="play-again">
+                                <i class="fas fa-redo"></i> Играть снова
+                            </button>
+                            <button class="share-btn" id="share-btn">
+                                <i class="fas fa-share-alt"></i> Поделиться
+                            </button>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Навигация -->
+        <!-- НАВИГАЦИЯ -->
         <div class="navigation">
-            <button id="prev-btn" class="nav-btn" title="Предыдущий слайд">
+            <button class="nav-btn" id="prev-btn" disabled>
                 <i class="fas fa-chevron-left"></i>
             </button>
-            <div class="slide-indicator">
-                <div class="indicator-dot active" data-slide="1"></div>
-                <div class="indicator-dot" data-slide="2"></div>
-                <div class="indicator-dot" data-slide="3"></div>
+            <div class="slide-dots">
+                <div class="slide-dot active" data-slide="1"></div>
+                <div class="slide-dot" data-slide="2"></div>
+                <div class="slide-dot" data-slide="3"></div>
             </div>
-            <button id="next-btn" class="nav-btn" title="Следующий слайд">
+            <button class="nav-btn" id="next-btn">
                 <i class="fas fa-chevron-right"></i>
             </button>
         </div>
