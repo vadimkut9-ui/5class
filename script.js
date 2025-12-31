@@ -1,39 +1,80 @@
-let currentSlideIndex = 0;
-let isAnimating = false;
-let slides = [];
+// ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ
+let currentSlide = 0;
+const slides = document.querySelectorAll('.slide');
+const totalSlides = slides.length;
 
-// Переменные для раскраски
+// ПЕРЕМЕННЫЕ ДЛЯ КАНВАСА
 let canvas, ctx;
 let isDrawing = false;
 let currentTool = 'brush';
 let currentColor = '#FF6B6B';
-let brushSize = 10;
+let brushSize = 15;
 let lastX = 0;
 let lastY = 0;
-let solvedProblems = 0;
-let totalProblems = 5;
 
+// ДАННЫЕ ИГРЫ
+let solvedProblems = 0;
+let totalProblems = 10;
+let score = 0;
+let coloredAreas = 0;
+let totalAreas = 20;
+
+// ЗАДАЧИ И ЦВЕТА
+const problems = [
+    { expression: "½ + ¼ =", answer: "¾", color: "#FF6B6B", id: 1 },
+    { expression: "⅔ + ⅓ =", answer: "1", color: "#4ECDC4", id: 2 },
+    { expression: "¾ - ½ =", answer: "¼", color: "#FFD166", id: 3 },
+    { expression: "1½ + 2½ =", answer: "4", color: "#06D6A0", id: 4 },
+    { expression: "3⅓ - 1⅓ =", answer: "2", color: "#118AB2", id: 5 },
+    { expression: "¼ × 4 =", answer: "1", color: "#7209B7", id: 6 },
+    { expression: "½ ÷ ¼ =", answer: "2", color: "#EF476F", id: 7 },
+    { expression: "3¾ - 1¼ =", answer: "2½", color: "#073B4C", id: 8 },
+    { expression: "⅔ × ¾ =", answer: "½", color: "#FF9E00", id: 9 },
+    { expression: "5 ÷ ½ =", answer: "10", color: "#8338EC", id: 10 }
+];
+
+// ИНИЦИАЛИЗАЦИЯ
 document.addEventListener('DOMContentLoaded', function() {
     initSlides();
-    initColoring();
-    initMathProblems();
+    initGame();
+    initCanvas();
+    createProblems();
+    createColorLegend();
+    drawPictureOutline();
     
-    // Инициализация первого слайда
+    // Запуск начальной анимации
     setTimeout(() => {
-        document.querySelector('.math-symbols').style.animationPlayState = 'running';
+        document.querySelectorAll('.fraction-anim').forEach((el, i) => {
+            el.style.animationDelay = `${i * 0.2}s`;
+        });
     }, 100);
 });
 
+// НАВИГАЦИЯ СЛАЙДОВ
 function initSlides() {
-    slides = document.querySelectorAll('.slide');
     const prevBtn = document.getElementById('prev-btn');
     const nextBtn = document.getElementById('next-btn');
-    const indicators = document.querySelectorAll('.indicator-dot');
+    const startBtn = document.getElementById('start-btn');
+    const playAgainBtn = document.getElementById('play-again');
+    const slideDots = document.querySelectorAll('.slide-dot');
     
-    // Показываем первый слайд
-    slides[0].classList.add('active');
+    // Кнопка "Начать игру"
+    if (startBtn) {
+        startBtn.addEventListener('click', () => showSlide(1));
+    }
     
-    // Обработчики для кнопок навигации
+    // Кнопка "Играть снова"
+    if (playAgainBtn) {
+        playAgainBtn.addEventListener('click', resetGame);
+    }
+    
+    // Кнопка "Поделиться"
+    const shareBtn = document.getElementById('share-btn');
+    if (shareBtn) {
+        shareBtn.addEventListener('click', shareResult);
+    }
+    
+    // Стрелки навигации
     if (prevBtn) {
         prevBtn.addEventListener('click', () => navigate(-1));
     }
@@ -42,109 +83,283 @@ function initSlides() {
         nextBtn.addEventListener('click', () => navigate(1));
     }
     
-    // Обработчики для индикаторов слайдов
-    indicators.forEach((dot, index) => {
-        dot.addEventListener('click', () => {
-            if (!isAnimating) {
-                showSlide(index);
-            }
+    // Точки навигации
+    slideDots.forEach(dot => {
+        dot.addEventListener('click', function() {
+            const slideIndex = parseInt(this.dataset.slide) - 1;
+            showSlide(slideIndex);
         });
     });
     
-    // Навигация клавишами
+    // Клавиши клавиатуры
     document.addEventListener('keydown', (e) => {
         if (e.target.tagName === 'INPUT') return;
         
         switch(e.key) {
             case 'ArrowLeft':
-            case 'PageUp':
                 e.preventDefault();
                 navigate(-1);
                 break;
             case 'ArrowRight':
-            case 'PageDown':
             case ' ':
                 e.preventDefault();
                 navigate(1);
-                break;
-            case 'Home':
-                e.preventDefault();
-                showSlide(0);
-                break;
-            case 'End':
-                e.preventDefault();
-                showSlide(slides.length - 1);
                 break;
         }
     });
 }
 
 function navigate(direction) {
-    if (isAnimating) return;
-    
-    const newIndex = currentSlideIndex + direction;
-    
-    if (newIndex >= 0 && newIndex < slides.length) {
+    const newIndex = currentSlide + direction;
+    if (newIndex >= 0 && newIndex < totalSlides) {
         showSlide(newIndex);
     }
 }
 
 function showSlide(index) {
-    if (isAnimating || index === currentSlideIndex) return;
-    
-    isAnimating = true;
-    const direction = index > currentSlideIndex ? 'next' : 'prev';
-    
     // Скрываем текущий слайд
-    slides[currentSlideIndex].classList.remove('active');
-    slides[currentSlideIndex].classList.add(direction === 'next' ? 'prev' : 'next');
+    slides[currentSlide].classList.remove('active');
+    document.querySelectorAll('.slide-dot')[currentSlide].classList.remove('active');
     
     // Показываем новый слайд
     slides[index].classList.add('active');
-    slides[index].style.transform = direction === 'next' ? 'translateX(100%)' : 'translateX(-100%)';
+    document.querySelectorAll('.slide-dot')[index].classList.add('active');
+    currentSlide = index;
     
-    setTimeout(() => {
-        slides[index].style.transform = 'translateX(0)';
-    }, 10);
+    // Обновляем кнопки навигации
+    updateNavButtons();
     
-    // Обновляем индикаторы
-    updateIndicators(index);
-    
-    // Если переходим на слайд с раскраской, инициализируем канвас
-    if (index === 2) {
-        setTimeout(() => {
-            drawOutline();
-            updateProgress();
-        }, 600);
+    // Если перешли на игровой слайд, обновляем прогресс
+    if (index === 1) {
+        updateProgress();
+        
+        // Перерисовываем картинку для мобильных
+        if (window.innerWidth <= 768) {
+            setTimeout(() => {
+                drawPictureOutline();
+            }, 100);
+        }
     }
     
-    setTimeout(() => {
-        slides[currentSlideIndex].classList.remove('prev', 'next');
-        currentSlideIndex = index;
-        isAnimating = false;
-    }, 600);
+    // Если перешли на слайд с результатами, показываем статистику
+    if (index === 2) {
+        showResults();
+    }
 }
 
-function updateIndicators(index) {
-    const indicators = document.querySelectorAll('.indicator-dot');
-    indicators.forEach((dot, i) => {
-        if (i === index) {
-            dot.classList.add('active');
-        } else {
-            dot.classList.remove('active');
-        }
+function updateNavButtons() {
+    const prevBtn = document.getElementById('prev-btn');
+    const nextBtn = document.getElementById('next-btn');
+    
+    if (prevBtn) {
+        prevBtn.disabled = currentSlide === 0;
+    }
+    
+    if (nextBtn) {
+        nextBtn.disabled = currentSlide === totalSlides - 1;
+    }
+}
+
+// ИНИЦИАЛИЗАЦИЯ ИГРЫ
+function initGame() {
+    const clearBtn = document.getElementById('clear-btn');
+    const hintBtn = document.getElementById('hint-btn');
+    const brushSizeInput = document.getElementById('brush-size');
+    const brushSizeValue = document.getElementById('brush-size-value');
+    
+    // Очистка канваса
+    if (clearBtn) {
+        clearBtn.addEventListener('click', () => {
+            if (confirm('Очистить весь рисунок?')) {
+                drawPictureOutline();
+                coloredAreas = 0;
+                updateProgress();
+            }
+        });
+    }
+    
+    // Подсказка
+    if (hintBtn) {
+        hintBtn.addEventListener('click', showHint);
+    }
+    
+    // Размер кисти
+    if (brushSizeInput) {
+        brushSizeInput.addEventListener('input', function() {
+            brushSize = parseInt(this.value);
+            brushSizeValue.textContent = brushSize;
+        });
+    }
+    
+    // Создание палитры цветов
+    createColorPalette();
+}
+
+// СОЗДАНИЕ ЦВЕТОВОЙ ПАЛИТРЫ
+function createColorPalette() {
+    const colorsGrid = document.querySelector('.colors-grid');
+    colorsGrid.innerHTML = '';
+    
+    problems.forEach((problem, index) => {
+        const colorItem = document.createElement('div');
+        colorItem.className = `color-item ${index === 0 ? 'active' : 'locked'}`;
+        colorItem.style.backgroundColor = problem.color;
+        colorItem.dataset.color = problem.color;
+        colorItem.dataset.problemId = problem.id;
+        
+        colorItem.addEventListener('click', function() {
+            if (!this.classList.contains('locked')) {
+                document.querySelectorAll('.color-item').forEach(item => {
+                    item.classList.remove('active');
+                });
+                this.classList.add('active');
+                currentColor = this.dataset.color;
+                
+                // Показываем, к какой задаче относится цвет
+                const problemElement = document.querySelector(`[data-problem-id="${this.dataset.problemId}"]`);
+                if (problemElement) {
+                    problemElement.classList.add('pulse');
+                    setTimeout(() => {
+                        problemElement.classList.remove('pulse');
+                    }, 1000);
+                }
+            }
+        });
+        
+        colorsGrid.appendChild(colorItem);
+    });
+    
+    // Добавляем инструмент выбора своего цвета
+    const customColor = document.createElement('input');
+    customColor.type = 'color';
+    customColor.value = '#FF6B6B';
+    customColor.className = 'color-item';
+    customColor.style.width = '50px';
+    customColor.style.height = '50px';
+    customColor.title = 'Выбрать свой цвет';
+    
+    customColor.addEventListener('input', function() {
+        currentColor = this.value;
+        document.querySelectorAll('.color-item').forEach(item => {
+            item.classList.remove('active');
+        });
+        this.classList.add('active');
+    });
+    
+    colorsGrid.appendChild(customColor);
+}
+
+// СОЗДАНИЕ ЗАДАЧ
+function createProblems() {
+    const problemsGrid = document.querySelector('.problems-grid');
+    problemsGrid.innerHTML = '';
+    
+    problems.forEach((problem, index) => {
+        const problemCard = document.createElement('div');
+        problemCard.className = 'problem-card';
+        problemCard.dataset.problemId = problem.id;
+        
+        problemCard.innerHTML = `
+            <div class="expression">${problem.expression}</div>
+            <div class="input-group">
+                <input type="text" 
+                       class="answer-input" 
+                       data-answer="${problem.answer}"
+                       data-color="${problem.color}"
+                       placeholder="Ответ..."
+                       maxlength="10">
+                <div class="result-indicator"></div>
+            </div>
+        `;
+        
+        // Обработчик ввода
+        const input = problemCard.querySelector('.answer-input');
+        input.addEventListener('input', function() {
+            checkAnswer(this);
+        });
+        
+        // Автоподстановка дробей
+        input.addEventListener('keydown', function(e) {
+            if (e.key === '/') {
+                e.preventDefault();
+                const start = this.selectionStart;
+                const value = this.value;
+                
+                const fractions = {
+                    '1/2': '½',
+                    '1/3': '⅓',
+                    '2/3': '⅔',
+                    '1/4': '¼',
+                    '3/4': '¾',
+                    '1/5': '⅕',
+                    '2/5': '⅖',
+                    '3/5': '⅗',
+                    '4/5': '⅘',
+                    '1/6': '⅙',
+                    '5/6': '⅚',
+                    '1/8': '⅛',
+                    '3/8': '⅜',
+                    '5/8': '⅝',
+                    '7/8': '⅞'
+                };
+                
+                // Проверяем, есть ли дробь перед курсором
+                const textBefore = value.substring(0, start);
+                for (const [fraction, symbol] of Object.entries(fractions)) {
+                    if (textBefore.endsWith(fraction)) {
+                        const newValue = value.substring(0, start - fraction.length) + symbol + 
+                                       value.substring(start);
+                        this.value = newValue;
+                        this.selectionStart = this.selectionEnd = start - fraction.length + 1;
+                        checkAnswer(this);
+                        return;
+                    }
+                }
+            }
+        });
+        
+        problemsGrid.appendChild(problemCard);
     });
 }
 
-function initColoring() {
-    canvas = document.getElementById('coloring-canvas');
+// СОЗДАНИЕ ЛЕГЕНДЫ ЦВЕТОВ
+function createColorLegend() {
+    const legendItems = document.querySelector('.legend-items');
+    legendItems.innerHTML = '';
+    
+    problems.forEach(problem => {
+        const legendItem = document.createElement('div');
+        legendItem.className = 'legend-item';
+        legendItem.innerHTML = `
+            <div class="legend-color" style="background-color: ${problem.color};"></div>
+            <div class="legend-text">${problem.expression} → ${problem.answer}</div>
+        `;
+        legendItems.appendChild(legendItem);
+    });
+}
+
+// КАНВАС И РИСОВАНИЕ
+function initCanvas() {
+    canvas = document.getElementById('drawing-canvas');
     if (!canvas) return;
     
     ctx = canvas.getContext('2d');
     
-    // Настройка сглаживания
-    ctx.imageSmoothingEnabled = true;
-    ctx.imageSmoothingQuality = 'high';
+    // Адаптивный размер канваса
+    function resizeCanvas() {
+        const wrapper = canvas.parentElement;
+        const rect = wrapper.getBoundingClientRect();
+        
+        // Устанавливаем размеры канваса
+        canvas.width = rect.width * 0.95;
+        canvas.height = rect.height * 0.95;
+        
+        // Перерисовываем картинку
+        drawPictureOutline();
+    }
+    
+    // Инициализируем размер
+    resizeCanvas();
     
     // Обработчики событий мыши
     canvas.addEventListener('mousedown', startDrawing);
@@ -156,105 +371,60 @@ function initColoring() {
     canvas.addEventListener('touchstart', handleTouchStart);
     canvas.addEventListener('touchmove', handleTouchMove);
     canvas.addEventListener('touchend', stopDrawing);
+    canvas.addEventListener('touchcancel', stopDrawing);
+    
+    // Предотвращаем скролл при касании канваса
+    canvas.addEventListener('touchmove', (e) => {
+        if (e.scale !== 1) {
+            e.preventDefault();
+        }
+    }, { passive: false });
     
     // Инструменты
     document.querySelectorAll('.tool-btn').forEach(btn => {
-        if (btn.id !== 'clear-btn') {
-            btn.addEventListener('click', function() {
-                document.querySelectorAll('.tool-btn').forEach(b => b.classList.remove('active'));
-                this.classList.add('active');
-                currentTool = this.dataset.tool;
-            });
-        }
-    });
-    
-    // Очистка
-    document.getElementById('clear-btn').addEventListener('click', clearCanvas);
-    
-    // Цвета
-    document.querySelectorAll('.color').forEach(color => {
-        color.addEventListener('click', function() {
-            document.querySelectorAll('.color').forEach(c => c.classList.remove('active'));
+        btn.addEventListener('click', function() {
+            document.querySelectorAll('.tool-btn').forEach(b => b.classList.remove('active'));
             this.classList.add('active');
-            currentColor = this.dataset.color;
-            document.getElementById('custom-color').value = currentColor;
+            currentTool = this.dataset.tool;
         });
     });
     
-    // Пользовательский цвет
-    document.getElementById('custom-color').addEventListener('input', function() {
-        currentColor = this.value;
-    });
-    
-    // Размер кисти
-    const brushSizeInput = document.getElementById('brush-size');
-    const brushSizeValue = document.getElementById('brush-size-value');
-    
-    brushSizeInput.addEventListener('input', function() {
-        brushSize = parseInt(this.value);
-        brushSizeValue.textContent = `${brushSize}px`;
-    });
-    
-    // Рисуем контур при загрузке
-    drawOutline();
+    // Обновляем размер при изменении окна
+    window.addEventListener('resize', resizeCanvas);
 }
 
-function drawOutline() {
-    // Очищаем канвас
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+// РИСОВАНИЕ КАРТИНКИ
+function drawPictureOutline() {
+    if (!ctx) return;
     
-    // Рисуем контур для раскраски
+    const width = canvas.width;
+    const height = canvas.height;
+    
+    // Очищаем канвас
+    ctx.clearRect(0, 0, width, height);
+    
+    // Фон
+    ctx.fillStyle = '#E3F2FD';
+    ctx.fillRect(0, 0, width, height);
+    
+    // Настройки линий
     ctx.lineWidth = 3;
     ctx.strokeStyle = '#333';
     ctx.fillStyle = '#ffffff';
     
-    // Рисуем большой дом
-    // Основа дома
+    // ОБЛАСТЬ 1: Солнце (задача 1: ½ + ¼ = ¾)
     ctx.beginPath();
-    ctx.rect(100, 250, 400, 200);
-    ctx.fill();
-    ctx.stroke();
-    
-    // Крыша
-    ctx.beginPath();
-    ctx.moveTo(50, 250);
-    ctx.lineTo(300, 100);
-    ctx.lineTo(550, 250);
-    ctx.closePath();
-    ctx.fill();
-    ctx.stroke();
-    
-    // Дверь
-    ctx.beginPath();
-    ctx.rect(250, 350, 100, 100);
-    ctx.fill();
-    ctx.stroke();
-    
-    // Окно 1
-    ctx.beginPath();
-    ctx.rect(150, 300, 80, 80);
-    ctx.fill();
-    ctx.stroke();
-    
-    // Окно 2
-    ctx.beginPath();
-    ctx.rect(370, 300, 80, 80);
-    ctx.fill();
-    ctx.stroke();
-    
-    // Солнце
-    ctx.beginPath();
-    ctx.arc(650, 100, 60, 0, Math.PI * 2);
+    ctx.arc(width * 0.85, height * 0.15, width * 0.08, 0, Math.PI * 2);
     ctx.fill();
     ctx.stroke();
     
     // Лучи солнца
     for (let i = 0; i < 12; i++) {
         const angle = (i * Math.PI) / 6;
-        const x1 = 650 + Math.cos(angle) * 60;
-        const y1 = 100 + Math.sin(angle) * 60;
-        const x2 = 650 + Math.cos(angle) * 90;
-        const y2 = 100 + Math.sin(angle) * 90;
+        const x1 = width * 0.85 + Math.cos(angle) * width * 0.08;
+        const y1 = height * 0.15 + Math.sin(angle) * width * 0.08;
+        const x2 = width * 0.85 + Math.cos(angle) * width * 0.12;
+        const y2 = height * 0.15 + Math.sin(angle) * width * 0.12;
         
         ctx.beginPath();
         ctx.moveTo(x1, y1);
@@ -262,37 +432,79 @@ function drawOutline() {
         ctx.stroke();
     }
     
-    // Дерево
-    // Ствол
+    // ОБЛАСТЬ 2: Облако 1 (задача 2: ⅔ + ⅓ = 1)
+    drawCloud(width * 0.2, height * 0.2, width * 0.1);
+    
+    // ОБЛАСТЬ 3: Облако 2 (задача 3: ¾ - ½ = ¼)
+    drawCloud(width * 0.4, height * 0.15, width * 0.08);
+    
+    // ОБЛАСТЬ 4: Облако 3 (задача 4: 1½ + 2½ = 4)
+    drawCloud(width * 0.7, height * 0.25, width * 0.09);
+    
+    // ОБЛАСТЬ 5-6: Горы (задачи 5-6)
     ctx.beginPath();
-    ctx.rect(600, 300, 40, 150);
+    ctx.moveTo(0, height * 0.7);
+    ctx.lineTo(width * 0.3, height * 0.4);
+    ctx.lineTo(width * 0.6, height * 0.5);
+    ctx.lineTo(width, height * 0.6);
+    ctx.lineTo(width, height);
+    ctx.lineTo(0, height);
+    ctx.closePath();
+    ctx.fillStyle = '#81C784';
     ctx.fill();
     ctx.stroke();
     
-    // Крона
+    // ОБЛАСТЬ 7-8: Дом (задачи 7-8)
+    // Основа дома
+    ctx.fillStyle = '#ffffff';
     ctx.beginPath();
-    ctx.arc(620, 250, 70, 0, Math.PI * 2);
+    ctx.rect(width * 0.1, height * 0.55, width * 0.25, height * 0.25);
     ctx.fill();
     ctx.stroke();
     
-    // Облако 1
-    drawCloud(200, 80, 80);
-    
-    // Облако 2
-    drawCloud(450, 60, 60);
-    
-    // Трава
+    // Крыша
     ctx.beginPath();
-    ctx.rect(0, 450, canvas.width, 50);
-    ctx.fillStyle = '#90EE90';
+    ctx.moveTo(width * 0.08, height * 0.55);
+    ctx.lineTo(width * 0.225, height * 0.4);
+    ctx.lineTo(width * 0.37, height * 0.55);
+    ctx.closePath();
     ctx.fill();
     ctx.stroke();
     
-    // Цветы
-    drawFlower(150, 430);
-    drawFlower(300, 420);
-    drawFlower(500, 425);
-    drawFlower(700, 430);
+    // ОБЛАСТЬ 9: Окно (задача 9: ⅔ × ¾ = ½)
+    ctx.beginPath();
+    ctx.rect(width * 0.15, height * 0.6, width * 0.08, width * 0.08);
+    ctx.fill();
+    ctx.stroke();
+    
+    // ОБЛАСТЬ 10: Дверь (задача 10: 5 ÷ ½ = 10)
+    ctx.beginPath();
+    ctx.rect(width * 0.25, height * 0.65, width * 0.07, height * 0.15);
+    ctx.fill();
+    ctx.stroke();
+    
+    // ОБЛАСТЬ 11-12: Деревья (дополнительные области)
+    drawTree(width * 0.5, height * 0.65, width * 0.05);
+    drawTree(width * 0.6, height * 0.7, width * 0.04);
+    
+    // ОБЛАСТЬ 13-15: Цветы (дополнительные области)
+    drawFlower(width * 0.3, height * 0.8, width * 0.02);
+    drawFlower(width * 0.4, height * 0.85, width * 0.02);
+    drawFlower(width * 0.5, height * 0.82, width * 0.02);
+    
+    // ОБЛАСТЬ 16-20: Трава и детали
+    ctx.beginPath();
+    ctx.rect(0, height * 0.85, width, height * 0.15);
+    ctx.fillStyle = '#A5D6A7';
+    ctx.fill();
+    ctx.stroke();
+    
+    // Озера
+    ctx.beginPath();
+    ctx.ellipse(width * 0.75, height * 0.75, width * 0.1, height * 0.05, 0, 0, Math.PI * 2);
+    ctx.fillStyle = '#4FC3F7';
+    ctx.fill();
+    ctx.stroke();
 }
 
 function drawCloud(x, y, size) {
@@ -305,35 +517,52 @@ function drawCloud(x, y, size) {
     ctx.stroke();
 }
 
-function drawFlower(x, y) {
+function drawTree(x, y, size) {
+    // Ствол
+    ctx.beginPath();
+    ctx.rect(x - size * 0.2, y, size * 0.4, size * 1.5);
+    ctx.fillStyle = '#8D6E63';
+    ctx.fill();
+    ctx.stroke();
+    
+    // Крона
+    ctx.beginPath();
+    ctx.arc(x, y - size * 0.5, size * 1.2, 0, Math.PI * 2);
+    ctx.fillStyle = '#81C784';
+    ctx.fill();
+    ctx.stroke();
+}
+
+function drawFlower(x, y, size) {
     // Стебель
     ctx.beginPath();
     ctx.moveTo(x, y);
-    ctx.lineTo(x, y - 40);
+    ctx.lineTo(x, y - size * 4);
+    ctx.strokeStyle = '#388E3C';
     ctx.stroke();
     
-    // Листья
-    ctx.beginPath();
-    ctx.ellipse(x - 10, y - 20, 15, 8, Math.PI / 4, 0, Math.PI * 2);
-    ctx.ellipse(x + 10, y - 30, 15, 8, -Math.PI / 4, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.stroke();
+    // Лепестки
+    ctx.fillStyle = '#FFEB3B';
+    for (let i = 0; i < 6; i++) {
+        const angle = (i * Math.PI) / 3;
+        const petalX = x + Math.cos(angle) * size * 2;
+        const petalY = y - size * 4 + Math.sin(angle) * size * 2;
+        
+        ctx.beginPath();
+        ctx.arc(petalX, petalY, size * 1.5, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.stroke();
+    }
     
-    // Цветок
+    // Центр
     ctx.beginPath();
-    ctx.arc(x, y - 40, 20, 0, Math.PI * 2);
+    ctx.arc(x, y - size * 4, size, 0, Math.PI * 2);
+    ctx.fillStyle = '#FF9800';
     ctx.fill();
     ctx.stroke();
-    
-    // Центр цветка
-    ctx.beginPath();
-    ctx.arc(x, y - 40, 8, 0, Math.PI * 2);
-    ctx.fillStyle = '#FFD700';
-    ctx.fill();
-    ctx.stroke();
-    ctx.fillStyle = '#ffffff';
 }
 
+// ФУНКЦИИ РИСОВАНИЯ
 function startDrawing(e) {
     isDrawing = true;
     const pos = getMousePos(e);
@@ -342,6 +571,8 @@ function startDrawing(e) {
     if (currentTool === 'bucket') {
         floodFill(pos.x, pos.y);
         isDrawing = false;
+        coloredAreas++;
+        updateProgress();
     }
 }
 
@@ -355,7 +586,7 @@ function draw(e) {
     ctx.globalCompositeOperation = 'source-over';
     
     if (currentTool === 'eraser') {
-        ctx.strokeStyle = '#ffffff';
+        ctx.strokeStyle = '#E3F2FD';
         ctx.lineWidth = brushSize * 2;
     } else {
         ctx.strokeStyle = currentColor;
@@ -388,7 +619,7 @@ function getMousePos(e) {
         y = e.clientY - rect.top;
     }
     
-    // Масштабируем координаты относительно размера канваса
+    // Масштабируем относительно размеров канваса
     x = (x / rect.width) * canvas.width;
     y = (y / rect.height) * canvas.height;
     
@@ -403,6 +634,16 @@ function handleTouchStart(e) {
             clientY: touch.clientY
         });
         canvas.dispatchEvent(mouseEvent);
+    } else if (e.touches.length === 2) {
+        // Двойное касание для заливки
+        currentTool = 'bucket';
+        const touch = e.touches[0];
+        const mouseEvent = new MouseEvent('mousedown', {
+            clientX: touch.clientX,
+            clientY: touch.clientY
+        });
+        canvas.dispatchEvent(mouseEvent);
+        currentTool = 'brush';
     }
 }
 
@@ -415,12 +656,14 @@ function handleTouchMove(e) {
         });
         canvas.dispatchEvent(mouseEvent);
     }
+    e.preventDefault();
 }
 
 function floodFill(startX, startY) {
     const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
     const data = imageData.data;
     const startPos = (Math.floor(startY) * canvas.width + Math.floor(startX)) * 4;
+    
     const targetColor = {
         r: data[startPos],
         g: data[startPos + 1],
@@ -429,6 +672,8 @@ function floodFill(startX, startY) {
     };
     
     const fillColor = hexToRgb(currentColor);
+    
+    // Если цвет уже совпадает, выходим
     if (colorsMatch(targetColor, fillColor)) return;
     
     const stack = [[Math.floor(startX), Math.floor(startY)]];
@@ -438,6 +683,7 @@ function floodFill(startX, startY) {
         const [x, y] = stack.pop();
         const pos = (y * canvas.width + x) * 4;
         
+        // Проверяем границы
         if (x < 0 || x >= canvas.width || y < 0 || y >= canvas.height) continue;
         if (visited.has(`${x},${y}`)) continue;
         
@@ -448,6 +694,7 @@ function floodFill(startX, startY) {
             a: data[pos + 3]
         };
         
+        // Проверяем, совпадает ли цвет с целевым
         if (!colorsMatch(pixelColor, targetColor)) continue;
         
         // Закрашиваем пиксель
@@ -482,159 +729,247 @@ function colorsMatch(c1, c2) {
     return c1.r === c2.r && c1.g === c2.g && c1.b === c2.b && c1.a === c2.a;
 }
 
-function clearCanvas() {
-    if (confirm('Вы уверены, что хотите очистить весь рисунок?')) {
-        drawOutline();
-    }
-}
-
-function initMathProblems() {
-    const answerInputs = document.querySelectorAll('.answer-input');
-    
-    answerInputs.forEach(input => {
-        input.addEventListener('input', function() {
-            checkAnswer(this);
-        });
-        
-        // Автоподстановка дробей при вводе
-        input.addEventListener('keydown', function(e) {
-            if (e.key === '/') {
-                e.preventDefault();
-                const start = this.selectionStart;
-                const end = this.selectionEnd;
-                const value = this.value;
-                
-                this.value = value.substring(0, start) + '½' + value.substring(end);
-                this.selectionStart = this.selectionEnd = start + 1;
-                
-                checkAnswer(this);
-            }
-        });
-    });
-}
-
+// ПРОВЕРКА ОТВЕТОВ
 function checkAnswer(input) {
     const userAnswer = input.value.trim();
     const correctAnswer = input.dataset.answer;
-    const resultIcon = input.nextElementSibling;
+    const color = input.dataset.color;
+    const problemCard = input.closest('.problem-card');
+    const resultIndicator = input.nextElementSibling;
     
-    // Очищаем предыдущие классы
+    // Очищаем предыдущие состояния
     input.classList.remove('correct', 'incorrect');
-    resultIcon.classList.remove('correct', 'incorrect');
+    resultIndicator.className = 'result-indicator';
     
     if (!userAnswer) {
-        resultIcon.textContent = '';
+        resultIndicator.innerHTML = '';
         return;
     }
     
     // Нормализуем ответы для сравнения
-    const normalizedUser = userAnswer
-        .replace(/½/g, '1/2')
-        .replace(/⅓/g, '1/3')
-        .replace(/⅔/g, '2/3')
-        .replace(/¼/g, '1/4')
-        .replace(/¾/g, '3/4')
-        .replace(/⅕/g, '1/5')
-        .replace(/⅖/g, '2/5')
-        .replace(/⅗/g, '3/5')
-        .replace(/⅘/g, '4/5')
-        .replace(/⅙/g, '1/6')
-        .replace(/⅚/g, '5/6')
-        .replace(/⅛/g, '1/8')
-        .replace(/⅜/g, '3/8')
-        .replace(/⅝/g, '5/8')
-        .replace(/⅞/g, '7/8');
+    const normalizedUser = normalizeFraction(userAnswer);
+    const normalizedCorrect = normalizeFraction(correctAnswer);
     
-    const normalizedCorrect = correctAnswer
-        .replace(/½/g, '1/2')
-        .replace(/⅓/g, '1/3')
-        .replace(/⅔/g, '2/3')
-        .replace(/¼/g, '1/4')
-        .replace(/¾/g, '3/4')
-        .replace(/⅕/g, '1/5')
-        .replace(/⅖/g, '2/5')
-        .replace(/⅗/g, '3/5')
-        .replace(/⅘/g, '4/5')
-        .replace(/⅙/g, '1/6')
-        .replace(/⅚/g, '5/6')
-        .replace(/⅛/g, '1/8')
-        .replace(/⅜/g, '3/8')
-        .replace(/⅝/g, '5/8')
-        .replace(/⅞/g, '7/8');
-    
-    // Простое сравнение строк
     if (normalizedUser === normalizedCorrect) {
+        // Правильный ответ
         input.classList.add('correct');
-        resultIcon.classList.add('correct');
-        resultIcon.textContent = '✓';
+        resultIndicator.className = 'result-indicator correct';
+        resultIndicator.innerHTML = '✓';
+        problemCard.classList.add('solved');
         
-        // Проверяем, была ли задача уже решена
+        // Проверяем, был ли ответ уже засчитан
         if (!input.dataset.solved) {
             input.dataset.solved = 'true';
             solvedProblems++;
+            score += 10;
+            
+            // Разблокируем цвет
+            const colorItem = document.querySelector(`[data-color="${color}"]`);
+            if (colorItem) {
+                colorItem.classList.remove('locked');
+                colorItem.title = `Цвет для: ${correctAnswer}`;
+            }
+            
+            // Обновляем прогресс
             updateProgress();
             
-            // Разблокируем дополнительные цвета при решении всех задач
+            // Проверяем, решены ли все задачи
             if (solvedProblems === totalProblems) {
-                unlockAllColors();
+                setTimeout(() => {
+                    showCompletionMessage();
+                }, 500);
             }
         }
     } else {
+        // Неправильный ответ
         input.classList.add('incorrect');
-        resultIcon.classList.add('incorrect');
-        resultIcon.textContent = '✗';
+        resultIndicator.className = 'result-indicator incorrect';
+        resultIndicator.innerHTML = '✗';
         
-        // Если задача была решена, но теперь ответ неверный
+        // Если ответ был засчитан, но стал неправильным
         if (input.dataset.solved) {
             input.dataset.solved = 'false';
             solvedProblems = Math.max(0, solvedProblems - 1);
+            score = Math.max(0, score - 10);
             updateProgress();
         }
     }
 }
 
+function normalizeFraction(str) {
+    const fractions = {
+        '½': '1/2', '⅓': '1/3', '⅔': '2/3', '¼': '1/4', '¾': '3/4',
+        '⅕': '1/5', '⅖': '2/5', '⅗': '3/5', '⅘': '4/5', '⅙': '1/6',
+        '⅚': '5/6', '⅛': '1/8', '⅜': '3/8', '⅝': '5/8', '⅞': '7/8'
+    };
+    
+    // Заменяем символы дробей
+    let normalized = str;
+    for (const [symbol, fraction] of Object.entries(fractions)) {
+        normalized = normalized.replace(new RegExp(symbol, 'g'), fraction);
+    }
+    
+    // Убираем пробелы
+    normalized = normalized.replace(/\s+/g, '');
+    
+    // Конвертируем смешанные числа
+    normalized = normalized.replace(/(\d+)(\d+\/\d+)/g, (match, whole, fraction) => {
+        const [num, den] = fraction.split('/');
+        return `${(parseInt(whole) * parseInt(den) + parseInt(num))}/${den}`;
+    });
+    
+    return normalized;
+}
+
+// ОБНОВЛЕНИЕ ПРОГРЕССА
 function updateProgress() {
     const progressFill = document.getElementById('progress-fill');
-    const solvedCount = document.getElementById('solved-count');
+    const solvedElement = document.getElementById('solved');
+    const scoreElement = document.getElementById('score');
     
-    const percentage = (solvedProblems / totalProblems) * 100;
+    const progressPercent = (solvedProblems / totalProblems) * 100;
+    const coloredPercent = (coloredAreas / totalAreas) * 100;
+    const totalPercent = Math.min(100, (progressPercent + coloredPercent) / 2);
     
-    progressFill.style.width = `${percentage}%`;
-    solvedCount.textContent = solvedProblems;
+    if (progressFill) {
+        progressFill.style.width = `${totalPercent}%`;
+        progressFill.textContent = `${Math.round(totalPercent)}%`;
+    }
     
-    // Меняем цвет прогресс-бара в зависимости от прогресса
-    if (percentage < 33) {
-        progressFill.style.background = 'linear-gradient(90deg, #FF6B6B, #FF8E8E)';
-    } else if (percentage < 66) {
-        progressFill.style.background = 'linear-gradient(90deg, #FFD166, #FFE8A5)';
-    } else {
-        progressFill.style.background = 'linear-gradient(90deg, #06D6A0, #4ECDC4)';
+    if (solvedElement) {
+        solvedElement.textContent = solvedProblems;
+    }
+    
+    if (scoreElement) {
+        scoreElement.textContent = score;
+    }
+    
+    // Меняем цвет прогресс-бара
+    if (progressFill) {
+        if (totalPercent < 33) {
+            progressFill.style.background = 'linear-gradient(90deg, #FF6B6B, #FF8E8E)';
+        } else if (totalPercent < 66) {
+            progressFill.style.background = 'linear-gradient(90deg, #FFD166, #FFE8A5)';
+        } else {
+            progressFill.style.background = 'linear-gradient(90deg, #06D6A0, #4ECDC4)';
+        }
     }
 }
 
-function unlockAllColors() {
-    // Анимация для разблокировки цветов
-    const colors = document.querySelectorAll('.color');
-    colors.forEach((color, index) => {
-        setTimeout(() => {
-            color.style.animation = 'unlock 0.5s ease';
-            color.style.boxShadow = '0 0 15px rgba(0,0,0,0.3)';
-        }, index * 100);
-    });
+// ПОКАЗ РЕЗУЛЬТАТОВ
+function showResults() {
+    const finalSolved = document.getElementById('final-solved');
+    const finalScore = document.getElementById('final-score');
+    const finalColored = document.getElementById('final-colored');
+    const resultCanvas = document.getElementById('result-canvas');
     
-    // Показываем сообщение
-    setTimeout(() => {
-        alert('🎉 Поздравляем! Вы решили все задачи! Теперь все цвета разблокированы!');
-    }, colors.length * 100 + 300);
+    if (finalSolved) {
+        finalSolved.textContent = `${solvedProblems}/${totalProblems}`;
+    }
+    
+    if (finalScore) {
+        finalScore.textContent = score;
+    }
+    
+    if (finalColored) {
+        const coloredPercent = Math.round((coloredAreas / totalAreas) * 100);
+        finalColored.textContent = `${coloredPercent}%`;
+    }
+    
+    // Копируем рисунок на канвас результатов
+    if (resultCanvas && canvas) {
+        const resultCtx = resultCanvas.getContext('2d');
+        resultCtx.clearRect(0, 0, resultCanvas.width, resultCanvas.height);
+        
+        // Масштабируем изображение
+        resultCtx.drawImage(canvas, 0, 0, canvas.width, canvas.height, 
+                           0, 0, resultCanvas.width, resultCanvas.height);
+    }
 }
 
-// Добавляем CSS анимацию для разблокировки
-const style = document.createElement('style');
-style.textContent = `
-@keyframes unlock {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.3); }
-    100% { transform: scale(1); }
+// СБРОС ИГРЫ
+function resetGame() {
+    solvedProblems = 0;
+    score = 0;
+    coloredAreas = 0;
+    
+    // Сбрасываем задачи
+    document.querySelectorAll('.problem-card').forEach(card => {
+        card.classList.remove('solved');
+        const input = card.querySelector('.answer-input');
+        input.value = '';
+        input.classList.remove('correct', 'incorrect');
+        input.dataset.solved = '';
+        
+        const indicator = card.querySelector('.result-indicator');
+        indicator.className = 'result-indicator';
+        indicator.innerHTML = '';
+    });
+    
+    // Сбрасываем цвета
+    document.querySelectorAll('.color-item').forEach((item, index) => {
+        if (index === 0) {
+            item.classList.remove('locked');
+            item.classList.add('active');
+        } else {
+            item.classList.add('locked');
+            item.classList.remove('active');
+        }
+    });
+    
+    // Перерисовываем картинку
+    drawPictureOutline();
+    
+    // Обновляем прогресс
+    updateProgress();
+    
+    // Возвращаемся к первому слайду
+    showSlide(0);
 }
-`;
-document.head.appendChild(style);
+
+// ПОДСКАЗКИ
+function showHint() {
+    const unsolvedProblems = Array.from(document.querySelectorAll('.problem-card'))
+        .filter(card => !card.classList.contains('solved'));
+    
+    if (unsolvedProblems.length > 0) {
+        const randomProblem = unsolvedProblems[Math.floor(Math.random() * unsolvedProblems.length)];
+        const answer = randomProblem.querySelector('.answer-input').dataset.answer;
+        
+        alert(`Подсказка: Ответ на один из примеров — ${answer}`);
+        
+        // Минус 5 баллов за подсказку
+        score = Math.max(0, score - 5);
+        updateProgress();
+    } else {
+        alert('Все задачи уже решены! 🎉');
+    }
+}
+
+function showCompletionMessage() {
+    if (solvedProblems === totalProblems) {
+        setTimeout(() => {
+            alert('🎉 Поздравляем! Ты решил все задачи!\nТеперь можешь раскрасить все области любыми цветами!');
+        }, 300);
+    }
+}
+
+// ПОДЕЛИТЬСЯ РЕЗУЛЬТАТОМ
+function shareResult() {
+    if (navigator.share) {
+        navigator.share({
+            title: 'Математическая раскраска: Дроби',
+            text: `Я решил ${solvedProblems} из ${totalProblems} задач и набрал ${score} баллов!`,
+            url: window.location.href
+        });
+    } else {
+        // Копируем в буфер обмена
+        const text = `Я решил ${solvedProblems} из ${totalProblems} задач по математике и набрал ${score} баллов!\nПопробуй и ты: ${window.location.href}`;
+        
+        navigator.clipboard.writeText(text).then(() => {
+            alert('Результат скопирован в буфер обмена! Можешь поделиться им в любом мессенджере.');
+        }).catch(() => {
+            prompt('Скопируйте этот текст:', text);
+        });
+    }
+}
