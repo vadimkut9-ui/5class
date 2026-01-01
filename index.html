@@ -5,9 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Математическая раскраска - Дроби</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        /* Вставьте сюда весь CSS код из следующего раздела */
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="presentation-container">
@@ -24,11 +22,11 @@
                             <span>¾</span>
                         </div>
                         <h1>Математическая Раскраска</h1>
-                        <p class="tagline">Учим дроби весело!</p>
+                        <p class="tagline">Изучаем дроби весело!</p>
                     </div>
                     
                     <div class="registration-form">
-                        <h2><i class="fas fa-user-plus"></i> Регистрация ученика</h2>
+                        <h2><i class="fas fa-user-plus"></i> Введите ваши данные</h2>
                         
                         <div class="form-group">
                             <label for="firstName"><i class="fas fa-user"></i> Имя:</label>
@@ -76,7 +74,7 @@
         <section class="slide" id="slide2">
             <div class="slide-content">
                 <div class="lesson-card">
-                    <h1><i class="fas fa-book-open"></i> Урок по дробям</h1>
+                    <h1><i class="fas fa-book-open"></i> Учим дроби</h1>
                     
                     <div class="lesson-content">
                         <div class="concept">
@@ -88,18 +86,19 @@
                                     <div class="denominator">2</div>
                                 </div>
                                 <div class="fraction-text">
-                                    <p><strong>Числитель</strong> - сколько частей взяли</p>
-                                    <p><strong>Знаменатель</strong> - на сколько частей разделили целое</p>
+                                    <p><strong>½ (одна вторая)</strong> - это половина целого</p>
+                                    <p><strong>¼ (одна четвертая)</strong> - это четверть целого</p>
+                                    <p><strong>¾ (три четвертых)</strong> - это три четверти целого</p>
                                 </div>
                             </div>
                         </div>
                         
                         <div class="examples">
-                            <h3><i class="fas fa-calculator"></i> Примеры:</h3>
+                            <h3><i class="fas fa-calculator"></i> Примеры сложения:</h3>
                             <div class="example-grid">
                                 <div class="example-item">
                                     <div class="math">½ + ½ = 1</div>
-                                    <p>Половина + половина = целое</p>
+                                    <p>Две половины = целое</p>
                                 </div>
                                 <div class="example-item">
                                     <div class="math">¼ + ¾ = 1</div>
@@ -115,15 +114,21 @@
                         <div class="practice">
                             <h3><i class="fas fa-pencil-alt"></i> Попробуй решить:</h3>
                             <div class="practice-item">
-                                <p>½ + ¼ = <input type="text" id="practice1" size="3"></p>
-                                <button onclick="checkPractice(1)" class="check-btn">Проверить</button>
+                                <div class="practice-problem">
+                                    <span class="problem">½ + ¼ = </span>
+                                    <input type="text" id="practiceAnswer" placeholder="Ответ">
+                                    <button onclick="checkPracticeAnswer()" class="check-btn">
+                                        <i class="fas fa-check"></i> Проверить
+                                    </button>
+                                </div>
+                                <div id="practiceFeedback" class="feedback"></div>
                             </div>
                         </div>
                     </div>
                     
                     <div class="lesson-footer">
-                        <button class="next-btn" onclick="nextSlide()">
-                            <i class="fas fa-arrow-right"></i> Продолжить
+                        <button onclick="nextSlide()" class="next-btn">
+                            <i class="fas fa-arrow-right"></i> Перейти к игре
                         </button>
                     </div>
                 </div>
@@ -143,65 +148,99 @@
                         <div class="game-stats">
                             <div class="stat-box">
                                 <i class="fas fa-check-circle"></i>
-                                <span>Решено: <span id="solvedCount">0</span>/10</span>
+                                <div class="stat-content">
+                                    <span class="stat-label">Решено</span>
+                                    <span class="stat-value" id="solvedCount">0/10</span>
+                                </div>
                             </div>
+                            
                             <div class="stat-box">
                                 <i class="fas fa-star"></i>
-                                <span>Баллы: <span id="scoreCount">0</span></span>
+                                <div class="stat-content">
+                                    <span class="stat-label">Баллы</span>
+                                    <span class="stat-value" id="scoreCount">0</span>
+                                </div>
                             </div>
+                            
                             <div class="stat-box">
                                 <i class="fas fa-clock"></i>
-                                <span>Время: <span id="timer">05:00</span></span>
+                                <div class="stat-content">
+                                    <span class="stat-label">Время</span>
+                                    <span class="stat-value" id="timer">05:00</span>
+                                </div>
                             </div>
                         </div>
                     </div>
                     
                     <div class="game-body">
+                        <!-- Левая часть: Канвас для рисования -->
                         <div class="coloring-section">
                             <div class="canvas-container">
-                                <canvas id="gameCanvas" width="800" height="500"></canvas>
+                                <canvas id="gameCanvas"></canvas>
+                                <div class="canvas-overlay">
+                                    <p>Раскрашивай области в зависимости от ответов!</p>
+                                </div>
                             </div>
                             
                             <div class="tools-panel">
-                                <h4><i class="fas fa-paint-brush"></i> Инструменты</h4>
-                                <div class="tools">
-                                    <button class="tool-btn active" onclick="selectTool('brush')">
-                                        <i class="fas fa-paint-brush"></i> Кисть
-                                    </button>
-                                    <button class="tool-btn" onclick="selectTool('bucket')">
-                                        <i class="fas fa-fill-drip"></i> Заливка
-                                    </button>
-                                    <button class="tool-btn" onclick="selectTool('eraser')">
-                                        <i class="fas fa-eraser"></i> Ластик
-                                    </button>
-                                    <button class="tool-btn" onclick="clearCanvas()">
+                                <div class="tool-section">
+                                    <h4><i class="fas fa-paint-brush"></i> Инструменты</h4>
+                                    <div class="tools">
+                                        <button class="tool-btn active" data-tool="brush">
+                                            <i class="fas fa-paint-brush"></i> Кисть
+                                        </button>
+                                        <button class="tool-btn" data-tool="bucket">
+                                            <i class="fas fa-fill-drip"></i> Заливка
+                                        </button>
+                                        <button class="tool-btn" data-tool="eraser">
+                                            <i class="fas fa-eraser"></i> Ластик
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <div class="tool-section">
+                                    <h4><i class="fas fa-palette"></i> Цвета</h4>
+                                    <div class="colors-grid" id="colorPalette">
+                                        <!-- Цвета будут добавлены через JS -->
+                                    </div>
+                                </div>
+                                
+                                <div class="tool-section">
+                                    <h4><i class="fas fa-sliders-h"></i> Настройки</h4>
+                                    <div class="brush-control">
+                                        <label>Размер кисти: <span id="brushSizeValue">15</span>px</label>
+                                        <input type="range" id="brushSize" min="1" max="50" value="15">
+                                    </div>
+                                    <button class="action-btn" id="clearCanvasBtn">
                                         <i class="fas fa-trash"></i> Очистить
                                     </button>
-                                </div>
-                                
-                                <h4><i class="fas fa-palette"></i> Цвета</h4>
-                                <div class="colors" id="colorPalette">
-                                    <!-- Цвета будут добавлены через JS -->
-                                </div>
-                                
-                                <div class="brush-size">
-                                    <label>Размер кисти: <span id="brushSizeValue">15</span></label>
-                                    <input type="range" id="brushSize" min="1" max="50" value="15" oninput="updateBrushSize(this.value)">
+                                    <button class="action-btn secondary" id="hintBtn">
+                                        <i class="fas fa-lightbulb"></i> Подсказка
+                                    </button>
                                 </div>
                             </div>
                         </div>
                         
+                        <!-- Правая часть: Задачи -->
                         <div class="problems-section">
                             <h3><i class="fas fa-tasks"></i> Математические задачи</h3>
+                            <p class="instructions">Реши задачу и получи цвет для раскраски</p>
+                            
                             <div class="problems-list" id="problemsList">
                                 <!-- Задачи будут добавлены через JS -->
                             </div>
                             
-                            <div class="hint-box">
-                                <button onclick="showHint()" class="hint-btn">
-                                    <i class="fas fa-lightbulb"></i> Получить подсказку
-                                </button>
-                                <div id="hintText"></div>
+                            <div class="hint-section">
+                                <div class="hint-box" id="hintBox">
+                                    <i class="fas fa-info-circle"></i>
+                                    <p>Каждый правильный ответ разблокирует новый цвет!</p>
+                                </div>
+                            </div>
+                            
+                            <div class="mobile-tips">
+                                <h4><i class="fas fa-mobile-alt"></i> Для телефона:</h4>
+                                <p>• Касайтесь для рисования</p>
+                                <p>• Двойное касание для заливки</p>
                             </div>
                         </div>
                     </div>
@@ -217,8 +256,8 @@
                         <div class="trophy">
                             <i class="fas fa-trophy"></i>
                         </div>
-                        <h1>Поздравляем!</h1>
-                        <p class="congrats">Игра завершена</p>
+                        <h1>Игра завершена!</h1>
+                        <p class="congrats">Поздравляем с успешным прохождением</p>
                     </div>
                     
                     <div class="results-body">
@@ -235,57 +274,59 @@
                         
                         <div class="score-board">
                             <div class="score-item">
-                                <div class="score-icon correct">
+                                <div class="score-icon" style="background: #4ECDC4;">
                                     <i class="fas fa-check"></i>
                                 </div>
                                 <div class="score-info">
-                                    <span class="label">Решено задач</span>
-                                    <span class="value" id="resultSolved">0/10</span>
+                                    <h4>Решено задач</h4>
+                                    <p class="score-value" id="resultSolved">0/10</p>
                                 </div>
                             </div>
                             
                             <div class="score-item">
-                                <div class="score-icon score">
+                                <div class="score-icon" style="background: #FFD166;">
                                     <i class="fas fa-star"></i>
                                 </div>
                                 <div class="score-info">
-                                    <span class="label">Набрано баллов</span>
-                                    <span class="value" id="resultScore">0</span>
+                                    <h4>Набрано баллов</h4>
+                                    <p class="score-value" id="resultScore">0</p>
                                 </div>
                             </div>
                             
                             <div class="score-item">
-                                <div class="score-icon colored">
+                                <div class="score-icon" style="background: #06D6A0;">
                                     <i class="fas fa-paint-brush"></i>
                                 </div>
                                 <div class="score-info">
-                                    <span class="label">Раскрашено</span>
-                                    <span class="value" id="resultColored">0%</span>
+                                    <h4>Раскрашено</h4>
+                                    <p class="score-value" id="resultColored">0%</p>
                                 </div>
                             </div>
                             
                             <div class="score-item">
-                                <div class="score-icon level">
+                                <div class="score-icon" style="background: #7209B7;">
                                     <i class="fas fa-medal"></i>
                                 </div>
                                 <div class="score-info">
-                                    <span class="label">Уровень</span>
-                                    <span class="value" id="resultLevel">Новичок</span>
+                                    <h4>Уровень</h4>
+                                    <p class="score-value" id="resultLevel">Новичок</p>
                                 </div>
                             </div>
                         </div>
                         
-                        <div class="result-image">
-                            <h4><i class="fas fa-image"></i> Ваша работа:</h4>
-                            <canvas id="resultCanvas" width="400" height="250"></canvas>
+                        <div class="result-preview">
+                            <h4><i class="fas fa-image"></i> Ваша раскраска:</h4>
+                            <div class="preview-container">
+                                <canvas id="resultCanvas"></canvas>
+                            </div>
                         </div>
                     </div>
                     
                     <div class="results-footer">
-                        <button onclick="saveResults()" class="action-btn primary">
+                        <button class="action-btn primary" id="saveResultsBtn">
                             <i class="fas fa-save"></i> Сохранить результаты
                         </button>
-                        <button onclick="restartGame()" class="action-btn secondary">
+                        <button class="action-btn secondary" id="playAgainBtn">
                             <i class="fas fa-redo"></i> Играть снова
                         </button>
                     </div>
@@ -302,53 +343,74 @@
                     </div>
                     
                     <h1>Результаты отправлены!</h1>
-                    <p class="message">Учитель получит ваши результаты на email</p>
+                    <p class="message">Учитель получил ваши результаты</p>
                     
                     <div class="confirmation-info">
                         <div class="info-item">
-                            <i class="fas fa-user-check"></i>
-                            <div>
-                                <h4>Данные сохранены</h4>
-                                <p>Имя, фамилия и класс записаны</p>
+                            <div class="info-icon">
+                                <i class="fas fa-user-check"></i>
+                            </div>
+                            <div class="info-text">
+                                <h3>Данные ученика сохранены</h3>
+                                <p>Имя, фамилия и класс записаны в базу</p>
                             </div>
                         </div>
                         
                         <div class="info-item">
-                            <i class="fas fa-envelope"></i>
-                            <div>
-                                <h4>Email отправлен</h4>
-                                <p id="teacherEmailText">На адрес: teacher@school.ru</p>
+                            <div class="info-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div class="info-text">
+                                <h3>Результаты отправлены</h3>
+                                <p id="teacherEmailText">На email: teacher@school.ru</p>
                             </div>
                         </div>
                         
                         <div class="info-item">
-                            <i class="fas fa-chart-bar"></i>
-                            <div>
-                                <h4>Статистика</h4>
-                                <p>Результаты добавлены в общую таблицу</p>
+                            <div class="info-icon">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <div class="info-text">
+                                <h3>Статистика обновлена</h3>
+                                <p>Ваши результаты добавлены в общую таблицу</p>
                             </div>
                         </div>
                     </div>
                     
-                    <div class="certificate">
-                        <h4><i class="fas fa-award"></i> Сертификат участника</h4>
-                        <div class="certificate-preview">
-                            <h5>Сертификат</h5>
-                            <p>Награждается</p>
-                            <h3 id="certName">Иван Петров</h3>
-                            <p>за успешное прохождение курса "Дроби"</p>
-                            <p class="score">Результат: <span id="certScore">0</span> баллов</p>
-                            <p class="date">Дата: <span id="certDate">--.--.----</span></p>
+                    <div class="certificate-section">
+                        <h3><i class="fas fa-award"></i> Ваш сертификат</h3>
+                        <div class="certificate">
+                            <div class="certificate-content">
+                                <h4>Сертификат об успешном прохождении</h4>
+                                <p class="student-name" id="certName">Иван Петров</p>
+                                <p class="course-name">Курс "Дроби и математическая раскраска"</p>
+                                <div class="certificate-stats">
+                                    <div class="cert-stat">
+                                        <span class="label">Решено задач:</span>
+                                        <span class="value" id="certSolved">0/10</span>
+                                    </div>
+                                    <div class="cert-stat">
+                                        <span class="label">Набрано баллов:</span>
+                                        <span class="value" id="certScore">0</span>
+                                    </div>
+                                </div>
+                                <p class="date">Дата: <span id="certDate">--.--.----</span></p>
+                            </div>
                         </div>
                     </div>
                     
                     <div class="confirmation-actions">
-                        <button onclick="downloadCertificate()" class="action-btn">
+                        <button class="action-btn" id="downloadCertBtn">
                             <i class="fas fa-download"></i> Скачать сертификат
                         </button>
-                        <button onclick="newStudent()" class="action-btn secondary">
+                        <button class="action-btn secondary" id="newStudentBtn">
                             <i class="fas fa-user-plus"></i> Новый ученик
                         </button>
+                    </div>
+                    
+                    <div class="teacher-message">
+                        <i class="fas fa-info-circle"></i>
+                        <p>Учитель получит подробный отчет с вашими результатами</p>
                     </div>
                 </div>
             </div>
@@ -356,26 +418,24 @@
 
         <!-- НАВИГАЦИЯ -->
         <div class="navigation">
-            <button class="nav-btn" id="prevBtn" onclick="prevSlide()">
+            <button class="nav-btn" id="prevBtn">
                 <i class="fas fa-chevron-left"></i>
             </button>
             
             <div class="slide-indicator">
-                <span class="indicator active" data-slide="1">1</span>
-                <span class="indicator" data-slide="2">2</span>
-                <span class="indicator" data-slide="3">3</span>
-                <span class="indicator" data-slide="4">4</span>
-                <span class="indicator" data-slide="5">5</span>
+                <div class="indicator-dot active" data-slide="1"></div>
+                <div class="indicator-dot" data-slide="2"></div>
+                <div class="indicator-dot" data-slide="3"></div>
+                <div class="indicator-dot" data-slide="4"></div>
+                <div class="indicator-dot" data-slide="5"></div>
             </div>
             
-            <button class="nav-btn" id="nextBtn" onclick="nextSlide()">
+            <button class="nav-btn" id="nextBtn">
                 <i class="fas fa-chevron-right"></i>
             </button>
         </div>
     </div>
 
-    <script>
-        // Вставьте сюда весь JavaScript код из следующего раздела
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
