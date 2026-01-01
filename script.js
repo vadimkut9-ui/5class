@@ -5,7 +5,7 @@ let studentData = {
     firstName: '',
     lastName: '',
     className: '',
-    teacherEmail: 'teacher@school.ru', // Измените на свой email
+    teacherEmail: 'vadimkut9@gmail.com', // Измените на свой email
     score: 0,
     solved: 0,
     timeSpent: 0,
@@ -180,7 +180,7 @@ function initRegistration() {
                 firstName,
                 lastName,
                 className: `${className} класс`,
-                teacherEmail: teacherEmail || 'teacher@school.ru',
+                teacherEmail: teacherEmail || 'vadimkut9@gmail.com',
                 score: 0,
                 solved: 0,
                 timeSpent: 0,
