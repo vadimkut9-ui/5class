@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Математическая раскраска: Дроби</title>
+    <title>Математическая раскраска - Дроби</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Вставьте сюда весь CSS код из следующего раздела */
+    </style>
 </head>
 <body>
     <div class="presentation-container">
@@ -23,19 +24,20 @@
                             <span>¾</span>
                         </div>
                         <h1>Математическая Раскраска</h1>
+                        <p class="tagline">Учим дроби весело!</p>
                     </div>
                     
                     <div class="registration-form">
-                        <h2><i class="fas fa-user-plus"></i> Вход в игру</h2>
+                        <h2><i class="fas fa-user-plus"></i> Регистрация ученика</h2>
                         
                         <div class="form-group">
                             <label for="firstName"><i class="fas fa-user"></i> Имя:</label>
-                            <input type="text" id="firstName" placeholder="Введите ваше имя" required>
+                            <input type="text" id="firstName" placeholder="Иван" required>
                         </div>
                         
                         <div class="form-group">
                             <label for="lastName"><i class="fas fa-users"></i> Фамилия:</label>
-                            <input type="text" id="lastName" placeholder="Введите вашу фамилию" required>
+                            <input type="text" id="lastName" placeholder="Петров" required>
                         </div>
                         
                         <div class="form-group">
@@ -46,31 +48,25 @@
                                 <option value="6">6 класс</option>
                                 <option value="7">7 класс</option>
                                 <option value="8">8 класс</option>
-                                <option value="9">9 класс</option>
                             </select>
                         </div>
                         
                         <div class="form-group">
-                            <label for="email"><i class="fas fa-envelope"></i> Email учителя:</label>
-                            <input type="email" id="teacherEmail" value="ваш_email@gmail.com" required>
+                            <label for="teacherEmail"><i class="fas fa-envelope"></i> Email учителя:</label>
+                            <input type="email" id="teacherEmail" placeholder="teacher@school.ru" required>
                             <small class="hint">Результаты будут отправлены на этот email</small>
                         </div>
                         
                         <div class="agreement">
                             <input type="checkbox" id="agreement" required>
                             <label for="agreement">
-                                Я согласен с сохранением и обработкой моих результатов
+                                Согласен с обработкой данных
                             </label>
                         </div>
                         
                         <button id="startGameBtn" class="start-btn">
-                            <i class="fas fa-play"></i> Начать игру
+                            <i class="fas fa-play"></i> Начать обучение
                         </button>
-                        
-                        <div class="privacy-note">
-                            <i class="fas fa-shield-alt"></i>
-                            <p>Ваши данные защищены и используются только для учебных целей</p>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -80,188 +76,132 @@
         <section class="slide" id="slide2">
             <div class="slide-content">
                 <div class="lesson-card">
-                    <h1><i class="fas fa-chalkboard-teacher"></i> Урок: Дроби</h1>
+                    <h1><i class="fas fa-book-open"></i> Урок по дробям</h1>
                     
                     <div class="lesson-content">
                         <div class="concept">
                             <h3><i class="fas fa-lightbulb"></i> Что такое дробь?</h3>
-                            <div class="visual-example">
-                                <div class="pie-chart" id="pie1">
-                                    <div class="slice" style="--percentage: 50%; background: #FF6B6B;">½</div>
-                                    <div class="slice" style="--percentage: 50%; background: #4ECDC4;"></div>
+                            <div class="fraction-visual">
+                                <div class="fraction-example">
+                                    <div class="numerator">1</div>
+                                    <div class="fraction-line"></div>
+                                    <div class="denominator">2</div>
                                 </div>
-                                <p>Дробь показывает часть целого</p>
+                                <div class="fraction-text">
+                                    <p><strong>Числитель</strong> - сколько частей взяли</p>
+                                    <p><strong>Знаменатель</strong> - на сколько частей разделили целое</p>
+                                </div>
                             </div>
                         </div>
                         
-                        <div class="rules">
-                            <h3><i class="fas fa-list-ol"></i> Основные правила</h3>
-                            <div class="rule-item">
-                                <div class="rule-number">1</div>
-                                <div class="rule-text">
-                                    <h4>Сложение дробей</h4>
-                                    <p>При одинаковых знаменателях складываем числители:</p>
-                                    <div class="math-example">½ + ¼ = ¾</div>
+                        <div class="examples">
+                            <h3><i class="fas fa-calculator"></i> Примеры:</h3>
+                            <div class="example-grid">
+                                <div class="example-item">
+                                    <div class="math">½ + ½ = 1</div>
+                                    <p>Половина + половина = целое</p>
+                                </div>
+                                <div class="example-item">
+                                    <div class="math">¼ + ¾ = 1</div>
+                                    <p>Четверть + три четверти = целое</p>
+                                </div>
+                                <div class="example-item">
+                                    <div class="math">⅓ + ⅓ + ⅓ = 1</div>
+                                    <p>Три трети = целое</p>
                                 </div>
                             </div>
-                            
-                            <div class="rule-item">
-                                <div class="rule-number">2</div>
-                                <div class="rule-text">
-                                    <h4>Вычитание дробей</h4>
-                                    <p>При одинаковых знаменателях вычитаем числители:</p>
-                                    <div class="math-example">¾ - ½ = ¼</div>
-                                </div>
-                            </div>
-                            
-                            <div class="rule-item">
-                                <div class="rule-number">3</div>
-                                <div class="rule-text">
-                                    <h4>Умножение дробей</h4>
-                                    <p>Умножаем числитель на числитель, знаменатель на знаменатель:</p>
-                                    <div class="math-example">½ × ¼ = ⅛</div>
-                                </div>
+                        </div>
+                        
+                        <div class="practice">
+                            <h3><i class="fas fa-pencil-alt"></i> Попробуй решить:</h3>
+                            <div class="practice-item">
+                                <p>½ + ¼ = <input type="text" id="practice1" size="3"></p>
+                                <button onclick="checkPractice(1)" class="check-btn">Проверить</button>
                             </div>
                         </div>
                     </div>
                     
                     <div class="lesson-footer">
-                        <button class="next-btn" data-next="3">
-                            <i class="fas fa-arrow-right"></i> Перейти к практике
+                        <button class="next-btn" onclick="nextSlide()">
+                            <i class="fas fa-arrow-right"></i> Продолжить
                         </button>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- СЛАЙД 3: ТРЕНИРОВКА -->
+        <!-- СЛАЙД 3: ИГРА -->
         <section class="slide" id="slide3">
-            <div class="slide-content">
-                <div class="training-card">
-                    <h1><i class="fas fa-dumbbell"></i> Тренировка</h1>
-                    <p class="subtitle">Попробуй решить эти примеры:</p>
-                    
-                    <div class="training-examples">
-                        <div class="example-card" data-answer="¾">
-                            <div class="expression">½ + ¼ = ?</div>
-                            <div class="answer-options">
-                                <button class="option-btn" data-value="½">½</button>
-                                <button class="option-btn" data-value="¾">¾</button>
-                                <button class="option-btn" data-value="1">1</button>
-                            </div>
-                            <div class="feedback"></div>
-                        </div>
-                        
-                        <div class="example-card" data-answer="¼">
-                            <div class="expression">¾ - ½ = ?</div>
-                            <div class="answer-options">
-                                <button class="option-btn" data-value="¼">¼</button>
-                                <button class="option-btn" data-value="½">½</button>
-                                <button class="option-btn" data-value="1">1</button>
-                            </div>
-                            <div class="feedback"></div>
-                        </div>
-                        
-                        <div class="example-card" data-answer="2">
-                            <div class="expression">1½ + ½ = ?</div>
-                            <div class="answer-options">
-                                <button class="option-btn" data-value="1">1</button>
-                                <button class="option-btn" data-value="2">2</button>
-                                <button class="option-btn" data-value="2½">2½</button>
-                            </div>
-                            <div class="feedback"></div>
-                        </div>
-                    </div>
-                    
-                    <div class="training-stats">
-                        <div class="stat">
-                            <i class="fas fa-check-circle"></i>
-                            <span>Правильно: <span id="correctCount">0</span>/3</span>
-                        </div>
-                        <div class="stat">
-                            <i class="fas fa-star"></i>
-                            <span>Баллы: <span id="trainingScore">0</span></span>
-                        </div>
-                    </div>
-                    
-                    <div class="training-footer">
-                        <button class="next-btn" data-next="4" id="toGameBtn" disabled>
-                            <i class="fas fa-gamepad"></i> Начать основную игру
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- СЛАЙД 4: ОСНОВНАЯ ИГРА -->
-        <section class="slide" id="slide4">
             <div class="slide-content">
                 <div class="game-container">
                     <div class="game-header">
                         <div class="player-info">
                             <h3><i class="fas fa-user"></i> <span id="playerName">Ученик</span></h3>
-                            <p class="class-info"><i class="fas fa-graduation-cap"></i> <span id="playerClass">5 класс</span></p>
+                            <p class="class-info"><i class="fas fa-graduation-cap"></i> <span id="playerClass">Класс</span></p>
                         </div>
                         
                         <div class="game-stats">
                             <div class="stat-box">
-                                <i class="fas fa-tasks"></i>
-                                <div class="stat-content">
-                                    <span class="stat-label">Задачи</span>
-                                    <span class="stat-value" id="gameSolved">0/10</span>
-                                </div>
+                                <i class="fas fa-check-circle"></i>
+                                <span>Решено: <span id="solvedCount">0</span>/10</span>
                             </div>
-                            
                             <div class="stat-box">
                                 <i class="fas fa-star"></i>
-                                <div class="stat-content">
-                                    <span class="stat-label">Баллы</span>
-                                    <span class="stat-value" id="gameScore">0</span>
-                                </div>
+                                <span>Баллы: <span id="scoreCount">0</span></span>
                             </div>
-                            
                             <div class="stat-box">
                                 <i class="fas fa-clock"></i>
-                                <div class="stat-content">
-                                    <span class="stat-label">Время</span>
-                                    <span class="stat-value" id="gameTimer">05:00</span>
-                                </div>
+                                <span>Время: <span id="timer">05:00</span></span>
                             </div>
                         </div>
                     </div>
                     
                     <div class="game-body">
-                        <!-- Левая часть: Канвас для рисования -->
                         <div class="coloring-section">
                             <div class="canvas-container">
                                 <canvas id="gameCanvas" width="800" height="500"></canvas>
-                                <div class="canvas-overlay">
-                                    <p>Раскрашивай области в зависимости от ответов!</p>
-                                </div>
                             </div>
                             
-                            <div class="color-palette">
-                                <h4><i class="fas fa-palette"></i> Палитра цветов</h4>
-                                <div class="colors-grid" id="colorsGrid">
+                            <div class="tools-panel">
+                                <h4><i class="fas fa-paint-brush"></i> Инструменты</h4>
+                                <div class="tools">
+                                    <button class="tool-btn active" onclick="selectTool('brush')">
+                                        <i class="fas fa-paint-brush"></i> Кисть
+                                    </button>
+                                    <button class="tool-btn" onclick="selectTool('bucket')">
+                                        <i class="fas fa-fill-drip"></i> Заливка
+                                    </button>
+                                    <button class="tool-btn" onclick="selectTool('eraser')">
+                                        <i class="fas fa-eraser"></i> Ластик
+                                    </button>
+                                    <button class="tool-btn" onclick="clearCanvas()">
+                                        <i class="fas fa-trash"></i> Очистить
+                                    </button>
+                                </div>
+                                
+                                <h4><i class="fas fa-palette"></i> Цвета</h4>
+                                <div class="colors" id="colorPalette">
                                     <!-- Цвета будут добавлены через JS -->
+                                </div>
+                                
+                                <div class="brush-size">
+                                    <label>Размер кисти: <span id="brushSizeValue">15</span></label>
+                                    <input type="range" id="brushSize" min="1" max="50" value="15" oninput="updateBrushSize(this.value)">
                                 </div>
                             </div>
                         </div>
                         
-                        <!-- Правая часть: Задачи -->
                         <div class="problems-section">
-                            <h3><i class="fas fa-puzzle-piece"></i> Математические задачи</h3>
-                            <p>Реши задачу и получи цвет для раскраски</p>
-                            
+                            <h3><i class="fas fa-tasks"></i> Математические задачи</h3>
                             <div class="problems-list" id="problemsList">
                                 <!-- Задачи будут добавлены через JS -->
                             </div>
                             
-                            <div class="hint-section">
-                                <button class="hint-btn" id="getHintBtn">
+                            <div class="hint-box">
+                                <button onclick="showHint()" class="hint-btn">
                                     <i class="fas fa-lightbulb"></i> Получить подсказку
                                 </button>
-                                <div class="hint-display" id="hintDisplay"></div>
+                                <div id="hintText"></div>
                             </div>
                         </div>
                     </div>
@@ -269,16 +209,16 @@
             </div>
         </section>
 
-        <!-- СЛАЙД 5: РЕЗУЛЬТАТЫ -->
-        <section class="slide" id="slide5">
+        <!-- СЛАЙД 4: РЕЗУЛЬТАТЫ -->
+        <section class="slide" id="slide4">
             <div class="slide-content">
                 <div class="results-card">
                     <div class="results-header">
                         <div class="trophy">
                             <i class="fas fa-trophy"></i>
                         </div>
-                        <h1>Результаты игры</h1>
-                        <p class="congrats">Поздравляем с завершением!</p>
+                        <h1>Поздравляем!</h1>
+                        <p class="congrats">Игра завершена</p>
                     </div>
                     
                     <div class="results-body">
@@ -288,73 +228,73 @@
                             </div>
                             <div class="player-details">
                                 <h3 id="resultName">Имя Фамилия</h3>
-                                <p class="class" id="resultClass">5 класс</p>
-                                <p class="completion-time" id="completionTime">Время: 05:00</p>
+                                <p class="class" id="resultClass">Класс</p>
+                                <p class="time" id="resultTime">Время: 05:00</p>
                             </div>
                         </div>
                         
-                        <div class="score-breakdown">
+                        <div class="score-board">
                             <div class="score-item">
-                                <div class="score-icon" style="background: #4ECDC4;">
+                                <div class="score-icon correct">
                                     <i class="fas fa-check"></i>
                                 </div>
-                                <div class="score-details">
-                                    <span class="score-label">Решено задач</span>
-                                    <span class="score-value" id="resultSolved">0/10</span>
+                                <div class="score-info">
+                                    <span class="label">Решено задач</span>
+                                    <span class="value" id="resultSolved">0/10</span>
                                 </div>
                             </div>
                             
                             <div class="score-item">
-                                <div class="score-icon" style="background: #FFD166;">
+                                <div class="score-icon score">
                                     <i class="fas fa-star"></i>
                                 </div>
-                                <div class="score-details">
-                                    <span class="score-label">Набрано баллов</span>
-                                    <span class="score-value" id="resultScore">0</span>
+                                <div class="score-info">
+                                    <span class="label">Набрано баллов</span>
+                                    <span class="value" id="resultScore">0</span>
                                 </div>
                             </div>
                             
                             <div class="score-item">
-                                <div class="score-icon" style="background: #06D6A0;">
+                                <div class="score-icon colored">
                                     <i class="fas fa-paint-brush"></i>
                                 </div>
-                                <div class="score-details">
-                                    <span class="score-label">Раскрашено</span>
-                                    <span class="score-value" id="resultColored">0%</span>
+                                <div class="score-info">
+                                    <span class="label">Раскрашено</span>
+                                    <span class="value" id="resultColored">0%</span>
                                 </div>
                             </div>
                             
                             <div class="score-item">
-                                <div class="score-icon" style="background: #7209B7;">
+                                <div class="score-icon level">
                                     <i class="fas fa-medal"></i>
                                 </div>
-                                <div class="score-details">
-                                    <span class="score-label">Уровень</span>
-                                    <span class="score-value" id="resultLevel">Новичок</span>
+                                <div class="score-info">
+                                    <span class="label">Уровень</span>
+                                    <span class="value" id="resultLevel">Новичок</span>
                                 </div>
                             </div>
                         </div>
                         
-                        <div class="result-canvas">
-                            <h4><i class="fas fa-image"></i> Ваша раскраска:</h4>
+                        <div class="result-image">
+                            <h4><i class="fas fa-image"></i> Ваша работа:</h4>
                             <canvas id="resultCanvas" width="400" height="250"></canvas>
                         </div>
                     </div>
                     
                     <div class="results-footer">
-                        <button class="action-btn" id="saveResultsBtn">
+                        <button onclick="saveResults()" class="action-btn primary">
                             <i class="fas fa-save"></i> Сохранить результаты
                         </button>
-                        <button class="action-btn secondary" id="playAgainBtn">
-                            <i class="fas fa-redo"></i> Играть еще раз
+                        <button onclick="restartGame()" class="action-btn secondary">
+                            <i class="fas fa-redo"></i> Играть снова
                         </button>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- СЛАЙД 6: ПОДТВЕРЖДЕНИЕ ОТПРАВКИ -->
-        <section class="slide" id="slide6">
+        <!-- СЛАЙД 5: ПОДТВЕРЖДЕНИЕ -->
+        <section class="slide" id="slide5">
             <div class="slide-content">
                 <div class="confirmation-card">
                     <div class="success-icon">
@@ -362,57 +302,53 @@
                     </div>
                     
                     <h1>Результаты отправлены!</h1>
+                    <p class="message">Учитель получит ваши результаты на email</p>
                     
-                    <div class="confirmation-details">
-                        <div class="detail-item">
+                    <div class="confirmation-info">
+                        <div class="info-item">
                             <i class="fas fa-user-check"></i>
-                            <div class="detail-text">
-                                <h3>Данные ученика сохранены</h3>
-                                <p>Имя, фамилия и класс записаны в базу данных</p>
+                            <div>
+                                <h4>Данные сохранены</h4>
+                                <p>Имя, фамилия и класс записаны</p>
                             </div>
                         </div>
                         
-                        <div class="detail-item">
+                        <div class="info-item">
                             <i class="fas fa-envelope"></i>
-                            <div class="detail-text">
-                                <h3>Результаты отправлены учителю</h3>
-                                <p id="teacherEmailDisplay">На email: ваш_email@gmail.com</p>
+                            <div>
+                                <h4>Email отправлен</h4>
+                                <p id="teacherEmailText">На адрес: teacher@school.ru</p>
                             </div>
                         </div>
                         
-                        <div class="detail-item">
-                            <i class="fas fa-chart-line"></i>
-                            <div class="detail-text">
-                                <h3>Статистика сохранена</h3>
-                                <p>Все данные добавлены в Google Таблицу для анализа</p>
+                        <div class="info-item">
+                            <i class="fas fa-chart-bar"></i>
+                            <div>
+                                <h4>Статистика</h4>
+                                <p>Результаты добавлены в общую таблицу</p>
                             </div>
                         </div>
                     </div>
                     
-                    <div class="certificate-section">
-                        <h3><i class="fas fa-award"></i> Сертификат участника</h3>
+                    <div class="certificate">
+                        <h4><i class="fas fa-award"></i> Сертификат участника</h4>
                         <div class="certificate-preview">
-                            <div class="certificate-content">
-                                <h4>Сертификат</h4>
-                                <p>Награждается <span id="certName">Имя Фамилия</span></p>
-                                <p>за успешное прохождение курса "Дроби"</p>
-                                <p class="score">Результат: <span id="certScore">0</span> баллов</p>
-                                <div class="date">Дата: <span id="certDate">--.--.----</span></div>
-                            </div>
+                            <h5>Сертификат</h5>
+                            <p>Награждается</p>
+                            <h3 id="certName">Иван Петров</h3>
+                            <p>за успешное прохождение курса "Дроби"</p>
+                            <p class="score">Результат: <span id="certScore">0</span> баллов</p>
+                            <p class="date">Дата: <span id="certDate">--.--.----</span></p>
                         </div>
                     </div>
                     
                     <div class="confirmation-actions">
-                        <button class="action-btn" id="downloadCertBtn">
+                        <button onclick="downloadCertificate()" class="action-btn">
                             <i class="fas fa-download"></i> Скачать сертификат
                         </button>
-                        <button class="action-btn secondary" id="newPlayerBtn">
+                        <button onclick="newStudent()" class="action-btn secondary">
                             <i class="fas fa-user-plus"></i> Новый ученик
                         </button>
-                    </div>
-                    
-                    <div class="teacher-info">
-                        <p><i class="fas fa-info-circle"></i> Учитель получит полный отчет с результатами всех учеников</p>
                     </div>
                 </div>
             </div>
@@ -420,35 +356,26 @@
 
         <!-- НАВИГАЦИЯ -->
         <div class="navigation">
-            <button class="nav-btn" id="prevBtn" disabled>
+            <button class="nav-btn" id="prevBtn" onclick="prevSlide()">
                 <i class="fas fa-chevron-left"></i>
             </button>
             
             <div class="slide-indicator">
-                <div class="indicator-dot active" data-slide="1">1</div>
-                <div class="indicator-dot" data-slide="2">2</div>
-                <div class="indicator-dot" data-slide="3">3</div>
-                <div class="indicator-dot" data-slide="4">4</div>
-                <div class="indicator-dot" data-slide="5">5</div>
-                <div class="indicator-dot" data-slide="6">6</div>
+                <span class="indicator active" data-slide="1">1</span>
+                <span class="indicator" data-slide="2">2</span>
+                <span class="indicator" data-slide="3">3</span>
+                <span class="indicator" data-slide="4">4</span>
+                <span class="indicator" data-slide="5">5</span>
             </div>
             
-            <button class="nav-btn" id="nextBtn">
+            <button class="nav-btn" id="nextBtn" onclick="nextSlide()">
                 <i class="fas fa-chevron-right"></i>
             </button>
         </div>
     </div>
 
-    <!-- МОДАЛЬНОЕ ОКНО ПОДСКАЗКИ -->
-    <div id="hintModal" class="modal">
-        <div class="modal-content">
-            <span class="close-modal">&times;</span>
-            <h3><i class="fas fa-lightbulb"></i> Подсказка</h3>
-            <div id="modalHintText"></div>
-            <button class="modal-btn" id="useHintBtn">Использовать подсказку</button>
-        </div>
-    </div>
-
-    <script src="script.js"></script>
+    <script>
+        // Вставьте сюда весь JavaScript код из следующего раздела
+    </script>
 </body>
 </html>
