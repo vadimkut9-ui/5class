@@ -20,7 +20,7 @@ let studentData = {
 const CONFIG = {
     // ЗАМЕНИТЕ НА ВАШИ ДАННЫЕ:
     GOOGLE_SHEETS_URL: 'https://docs.google.com/spreadsheets/d/ВАШ_ID_ТАБЛИЦЫ/edit',
-    TEACHER_EMAIL: 'ваш_email@gmail.com',
+    TEACHER_EMAIL: 'vadimkut9@gmail.com',
     
     // Используем бесплатный сервис для отправки
     WEBHOOK_URL: 'https://hooks.zapier.com/hooks/catch/ВАШ_WEBHOOK/', // Для Zapier
