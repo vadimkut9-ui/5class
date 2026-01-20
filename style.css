@@ -1,694 +1,29 @@
 /* Основные стили */
 * {
-    margin: 0;
-    padding: 0;
     box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 body {
-    font-family: 'Nunito', sans-serif;
+    margin: 0;
+    padding: 20px;
     background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
     color: #333;
     min-height: 100vh;
-    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .container {
-    max-width: 1400px;
-    margin: 0 auto;
-    background: white;
+    width: 100%;
+    max-width: 900px;
+    background-color: white;
     border-radius: 20px;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-    overflow: hidden;
-}
-
-/* Шапка */
-header {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
-    padding: 20px 40px;
-}
-
-.header-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.logo {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-}
-
-.logo i {
-    font-size: 2.5rem;
-}
-
-.logo h1 {
-    font-family: 'Comic Neue', cursive;
-    font-size: 2.2rem;
-    font-weight: 700;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-}
-
-.game-info {
-    display: flex;
-    gap: 30px;
-}
-
-.info-box {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    background: rgba(255, 255, 255, 0.1);
-    padding: 15px 20px;
-    border-radius: 15px;
-    backdrop-filter: blur(10px);
-}
-
-.info-box i {
-    font-size: 2rem;
-}
-
-.info-box .label {
-    font-size: 0.9rem;
-    opacity: 0.8;
-}
-
-.info-box .value {
-    font-size: 1.5rem;
-    font-weight: 700;
-}
-
-/* Основной контейнер */
-.game-container {
-    display: flex;
-    padding: 30px;
-    gap: 30px;
-    min-height: 80vh;
-}
-
-/* Панели */
-.panel {
-    background: #f8f9fa;
-    border-radius: 15px;
-    padding: 25px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-    margin-bottom: 20px;
-}
-
-.panel h2 {
-    color: #667eea;
-    margin-bottom: 20px;
-    font-size: 1.5rem;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-/* Левая панель */
-.left-panel {
-    flex: 1;
-    min-width: 400px;
-}
-
-/* Форма регистрации */
-.form-group {
-    margin-bottom: 20px;
-}
-
-.form-input {
-    width: 100%;
-    padding: 12px 15px;
-    border: 2px solid #e0e0e0;
-    border-radius: 10px;
-    font-size: 16px;
-    transition: all 0.3s;
-    font-family: 'Nunito', sans-serif;
-}
-
-.form-input:focus {
-    border-color: #667eea;
-    outline: none;
-    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-}
-
-.form-input[readonly] {
-    background-color: #f5f5f5;
-    color: #666;
-    cursor: not-allowed;
-}
-
-/* Кнопки */
-.btn {
-    padding: 12px 24px;
-    border: none;
-    border-radius: 10px;
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    font-family: 'Nunito', sans-serif;
-}
-
-.start-btn {
-    background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);
-    color: white;
-    width: 100%;
-}
-
-.start-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(76, 175, 80, 0.3);
-}
-
-/* Список задач */
-.problems-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 15px;
-    max-height: 400px;
-    overflow-y: auto;
-    padding-right: 10px;
-}
-
-.problem-item {
-    background: white;
-    border-radius: 10px;
-    padding: 15px;
-    border: 2px solid #e0e0e0;
-    transition: all 0.3s;
-}
-
-.problem-item.solved {
-    border-color: #4CAF50;
-    background: #f1f8e9;
-}
-
-.problem-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
-}
-
-.problem-number {
-    width: 30px;
-    height: 30px;
-    background: #667eea;
-    color: white;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
-}
-
-.problem-expression {
-    font-size: 1.4rem;
-    font-weight: 700;
-    color: #333;
-    font-family: 'Comic Neue', cursive;
-}
-
-.answer-input {
-    width: 100%;
-    padding: 8px 12px;
-    border: 2px solid #ddd;
-    border-radius: 8px;
-    font-size: 16px;
-    margin-top: 10px;
-    transition: all 0.3s;
-}
-
-.answer-input.correct {
-    border-color: #4CAF50;
-    background: #e8f5e9;
-}
-
-.answer-input.incorrect {
-    border-color: #f44336;
-    background: #ffebee;
-}
-
-.check-btn {
-    width: 100%;
-    margin-top: 8px;
-    padding: 8px;
-    background: #667eea;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background 0.3s;
-}
-
-.check-btn:hover {
-    background: #5a67d8;
-}
-
-/* Палитра цветов */
-.palette-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 15px;
-    margin: 20px 0;
-}
-
-.color-item {
-    aspect-ratio: 1;
-    border-radius: 10px;
-    cursor: pointer;
-    border: 3px solid transparent;
-    transition: all 0.3s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.2rem;
-    color: white;
-    position: relative;
-}
-
-.color-item.locked {
-    cursor: not-allowed;
-    opacity: 0.5;
-}
-
-.color-item.active {
-    border-color: #333;
-    transform: scale(1.1);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-}
-
-.color-item.locked i {
-    position: absolute;
-    font-size: 1.5rem;
-    color: rgba(0, 0, 0, 0.5);
-}
-
-.current-color-display {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    background: white;
-    padding: 15px;
-    border-radius: 10px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+    padding: 40px;
     margin-top: 20px;
-}
-
-.current-color {
-    width: 50px;
-    height: 50px;
-    border-radius: 10px;
-    border: 3px solid #ddd;
-}
-
-/* Правая панель - канвас */
-.right-panel {
-    flex: 2;
-    min-width: 600px;
-}
-
-.canvas-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-}
-
-.canvas-tools {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-}
-
-.tool-buttons {
-    display: flex;
-    gap: 10px;
-}
-
-.tool-btn {
-    width: 40px;
-    height: 40px;
-    border: 2px solid #ddd;
-    background: white;
-    border-radius: 8px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.2rem;
-    color: #666;
-    transition: all 0.3s;
-}
-
-.tool-btn.active {
-    border-color: #667eea;
-    background: #667eea;
-    color: white;
-}
-
-.brush-controls {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.brush-controls input[type="range"] {
-    width: 100px;
-}
-
-.clear-btn {
-    background: #f44336;
-    color: white;
-}
-
-.clear-btn:hover {
-    background: #d32f2f;
-}
-
-/* Контейнер канваса */
-.canvas-container {
-    position: relative;
-    background: white;
-    border-radius: 10px;
-    overflow: hidden;
-    border: 2px solid #e0e0e0;
-    height: 500px;
-}
-
-#gameCanvas {
-    width: 100%;
-    height: 100%;
-    display: block;
-    background: #f9f9f9;
-}
-
-.canvas-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(255, 255, 255, 0.95);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 10;
-}
-
-.overlay-text {
-    text-align: center;
-    color: #666;
-}
-
-.overlay-text i {
-    font-size: 3rem;
-    color: #667eea;
-    margin-bottom: 15px;
-}
-
-.overlay-text p {
-    font-size: 1.2rem;
-    line-height: 1.5;
-}
-
-.canvas-status {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 20px;
-    padding: 15px;
-    background: white;
-    border-radius: 10px;
-}
-
-.status-item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 1.1rem;
-}
-
-.status-item i {
-    color: #4CAF50;
-    font-size: 1.5rem;
-}
-
-.finish-btn {
-    background: linear-gradient(135deg, #FF9800 0%, #F57C00 100%);
-    color: white;
-}
-
-.finish-btn:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-}
-
-.finish-btn:not(:disabled):hover {
-    background: linear-gradient(135deg, #F57C00 0%, #E65100 100%);
-    transform: translateY(-2px);
-}
-
-/* Модальное окно */
-.modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.5);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
-    backdrop-filter: blur(5px);
-}
-
-.modal-content {
-    background: white;
-    border-radius: 20px;
-    width: 90%;
-    max-width: 600px;
-    max-height: 90vh;
-    overflow-y: auto;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-}
-
-.modal-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 25px 30px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
-    border-radius: 20px 20px 0 0;
-}
-
-.modal-header h2 {
-    color: white;
-    margin: 0;
-}
-
-.close-modal {
-    background: none;
-    border: none;
-    color: white;
-    font-size: 2.5rem;
-    cursor: pointer;
-    line-height: 1;
-    padding: 0;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.modal-body {
-    padding: 30px;
-}
-
-.results-summary {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-    margin-bottom: 30px;
-}
-
-.result-card {
-    background: #f8f9fa;
-    border-radius: 15px;
-    padding: 20px;
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    transition: transform 0.3s;
-}
-
-.result-card:hover {
-    transform: translateY(-5px);
-}
-
-.result-icon {
-    width: 60px;
-    height: 60px;
-    background: #667eea;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.8rem;
-    color: white;
-}
-
-.result-info h3 {
-    color: #666;
-    font-size: 0.9rem;
-    margin-bottom: 5px;
-}
-
-.result-info p {
-    color: #333;
-    font-size: 1.3rem;
-    font-weight: 700;
-}
-
-.results-actions {
-    background: #f8f9fa;
-    border-radius: 15px;
-    padding: 25px;
-    text-align: center;
-}
-
-.results-actions h3 {
-    color: #667eea;
-    margin-bottom: 15px;
-}
-
-.email-notice {
-    color: #666;
-    margin-bottom: 20px;
-}
-
-.action-buttons {
-    display: flex;
-    gap: 15px;
-    justify-content: center;
-    margin-bottom: 20px;
-}
-
-.send-btn {
-    background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
-    color: white;
-}
-
-.newgame-btn {
-    background: #757575;
-    color: white;
-}
-
-.send-btn:hover {
-    background: linear-gradient(135deg, #1976D2 0%, #0D47A1 100%);
-}
-
-.newgame-btn:hover {
-    background: #616161;
-}
-
-.status-message {
-    padding: 15px;
-    border-radius: 10px;
-    font-weight: 600;
-    display: none;
-}
-
-.status-message.success {
-    background: #e8f5e9;
-    color: #2E7D32;
-    display: block;
-}
-
-.status-message.error {
-    background: #ffebee;
-    color: #c62828;
-    display: block;
-}
-
-/* Футер */
-footer {
-    background: #f8f9fa;
-    padding: 20px;
-    text-align: center;
-    color: #666;
-    border-top: 1px solid #e0e0e0;
-}
-
-/* Адаптивность */
-@media (max-width: 1200px) {
-    .game-container {
-        flex-direction: column;
-    }
-    
-    .left-panel, .right-panel {
-        min-width: 100%;
-    }
-    
-    .results-summary {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-@media (max-width: 768px) {
-    .header-content {
-        flex-direction: column;
-        gap: 20px;
-        text-align: center;
-    }
-    
-    .game-info {
-        flex-direction: column;
-        gap: 15px;
-        width: 100%;
-    }
-    
-    .problems-grid {
-        grid-template-columns: 1fr;
-    }
-    
-    .palette-grid {
-        grid-template-columns: repeat(3, 1fr);
-    }
-    
-    .canvas-header {
-        flex-direction: column;
-        gap: 15px;
-        align-items: flex-start;
-    }
-    
-    .canvas-tools {
-        flex-wrap: wrap;
-    }
-    
-    .results-summary {
-        grid-template-columns: 1fr;
-    }
-    
-    .action-buttons {
-        flex-direction: column;
-    }
-}
-
-/* Анимации */
-@keyframes pulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.05); }
-    100% { transform: scale(1); }
+    animation: fadeIn 0.8s ease-out;
 }
 
 @keyframes fadeIn {
@@ -696,10 +31,359 @@ footer {
     to { opacity: 1; transform: translateY(0); }
 }
 
-.problem-item.solved {
-    animation: pulse 0.5s ease;
+/* Заголовок */
+header {
+    text-align: center;
+    margin-bottom: 30px;
 }
 
-.modal-content {
-    animation: fadeIn 0.3s ease;
+h1 {
+    color: #2c3e50;
+    font-size: 2.7rem;
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+}
+
+.subtitle {
+    color: #7f8c8d;
+    font-size: 1.3rem;
+    margin-bottom: 30px;
+}
+
+/* Информация об игре */
+.game-info {
+    display: flex;
+    justify-content: space-between;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    padding: 20px;
+    border-radius: 15px;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+    border: 3px solid #e0e0e0;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+
+.info-item {
+    text-align: center;
+    flex: 1;
+    min-width: 150px;
+    margin: 10px;
+    padding: 15px;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    transition: transform 0.3s;
+}
+
+.info-item:hover {
+    transform: translateY(-5px);
+}
+
+.info-label {
+    font-size: 1rem;
+    color: #7f8c8d;
+    font-weight: 600;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.info-value {
+    font-size: 2.2rem;
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+/* Секции */
+.section {
+    margin-bottom: 30px;
+    display: none;
+    animation: slideIn 0.5s ease-out;
+}
+
+@keyframes slideIn {
+    from { opacity: 0; transform: translateX(-20px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+.active-section {
+    display: block;
+}
+
+/* Кнопки выбора темы */
+.topic-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+    margin-bottom: 40px;
+}
+
+.topic-btn {
+    padding: 18px 25px;
+    background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    flex: 1;
+    min-width: 220px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    box-shadow: 0 6px 12px rgba(52, 152, 219, 0.3);
+}
+
+.topic-btn:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(52, 152, 219, 0.4);
+    background: linear-gradient(135deg, #2980b9 0%, #2573a7 100%);
+}
+
+.topic-btn.active {
+    background: linear-gradient(135deg, #2c3e50 0%, #1a252f 100%);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+}
+
+.topic-btn i {
+    font-size: 1.3rem;
+}
+
+/* Контейнер вопроса */
+.question-container {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    padding: 30px;
+    border-radius: 15px;
+    margin-bottom: 30px;
+    text-align: center;
+    border: 3px solid #e0e0e0;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+}
+
+.question {
+    font-size: 1.8rem;
+    margin-bottom: 30px;
+    color: #2c3e50;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+/* Контейнер ответов */
+.answers {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+.answer-btn {
+    padding: 18px 25px;
+    background-color: white;
+    border: 3px solid #dfe6e9;
+    border-radius: 12px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    flex: 1;
+    min-width: 200px;
+    max-width: 250px;
+    font-weight: 500;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+}
+
+.answer-btn:hover {
+    border-color: #3498db;
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(52, 152, 219, 0.2);
+    background-color: #f8fafc;
+}
+
+.answer-btn.correct {
+    background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+    color: white;
+    border-color: #27ae60;
+    box-shadow: 0 6px 12px rgba(46, 204, 113, 0.3);
+}
+
+.answer-btn.wrong {
+    background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+    color: white;
+    border-color: #c0392b;
+    box-shadow: 0 6px 12px rgba(231, 76, 60, 0.3);
+}
+
+.answer-btn:disabled {
+    cursor: not-allowed;
+    opacity: 0.8;
+}
+
+/* Прогресс бар */
+.progress-bar {
+    width: 100%;
+    height: 25px;
+    background-color: #ecf0f1;
+    border-radius: 12px;
+    margin: 30px 0;
+    overflow: hidden;
+    border: 2px solid #d5dbdb;
+}
+
+.progress {
+    height: 100%;
+    background: linear-gradient(90deg, #2ecc71 0%, #27ae60 100%);
+    width: 0%;
+    transition: width 0.5s;
+    border-radius: 10px;
+}
+
+/* Кнопки управления */
+.controls {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+    gap: 20px;
+}
+
+.control-btn {
+    padding: 16px 35px;
+    background: linear-gradient(135deg, #2c3e50 0%, #1a252f 100%);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    flex: 1;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}
+
+.control-btn:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    background: linear-gradient(135deg, #1a252f 0%, #0d1318 100%);
+}
+
+.control-btn:disabled {
+    background: linear-gradient(135deg, #bdc3c7 0%, #95a5a6 100%);
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* Результаты */
+.result {
+    text-align: center;
+    padding: 40px;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-radius: 15px;
+    margin-top: 20px;
+    border: 3px solid #e0e0e0;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    animation: resultAppear 0.8s ease-out;
+}
+
+@keyframes resultAppear {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+.result h3 {
+    color: #2c3e50;
+    margin-bottom: 25px;
+    font-size: 2.2rem;
+}
+
+.result p {
+    font-size: 1.3rem;
+    margin: 15px 0;
+    color: #34495e;
+}
+
+.result p i {
+    color: #3498db;
+    width: 25px;
+}
+
+#result-message {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: #2c3e50;
+    margin: 30px 0;
+    padding: 20px;
+    background-color: white;
+    border-radius: 12px;
+    border-left: 5px solid #3498db;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .container {
+        padding: 20px;
+        margin-top: 10px;
+    }
+    
+    h1 {
+        font-size: 2rem;
+    }
+    
+    .subtitle {
+        font-size: 1.1rem;
+    }
+    
+    .game-info {
+        flex-direction: column;
+        align-items: center;
+        padding: 15px;
+    }
+    
+    .info-item {
+        min-width: 100%;
+    }
+    
+    .topic-btn, .answer-btn {
+        min-width: 100%;
+        max-width: 100%;
+    }
+    
+    .controls {
+        flex-direction: column;
+    }
+    
+    .question {
+        font-size: 1.5rem;
+    }
+    
+    .result {
+        padding: 25px;
+    }
+    
+    .result h3 {
+        font-size: 1.8rem;
+    }
+    
+    .result p {
+        font-size: 1.1rem;
+    }
+}
+
+/* Иконки */
+.fa-fraction {
+    background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.fa-brackets-curly:before {
+    content: "{ }";
+    font-weight: bold;
 }
