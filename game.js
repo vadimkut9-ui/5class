@@ -1,667 +1,389 @@
-// Глобальные переменные
-let gameTimer;
-let gameTime = 0;
-let gameCanvas, gameCtx;
-let currentTool = 'brush';
-let currentColor = '#FF6B6B';
-let brushSize = 5;
-let isDrawing = false;
-let lastX = 0, lastY = 0;
-let solvedProblems = 0;
-let totalProblems = 12;
-
-// Данные ученика
-let studentData = {
-    firstName: '',
-    lastName: '',
-    className: '',
-    teacherEmail: 'vadimkut9@gmail.com',
-    gameTime: 0,
-    solvedProblems: 0
-};
-
-// Математические задачи (как на картинке)
-const MATH_PROBLEMS = [
-    // Первый ряд (верхний)
-    { id: 1, expression: "5½ + 2¼", answer: "7¾", color: "#FF6B6B", x: 50, y: 50, width: 180, height: 160 },
-    { id: 2, expression: "3⅓ × 2", answer: "6⅔", color: "#4ECDC4", x: 250, y: 50, width: 180, height: 160 },
-    { id: 3, expression: "4¾ - 1½", answer: "3¼", color: "#FFD166", x: 450, y: 50, width: 180, height: 160 },
-    { id: 4, expression: "2½ ÷ ½", answer: "5", color: "#06D6A0", x: 650, y: 50, width: 180, height: 160 },
-    
-    // Второй ряд
-    { id: 5, expression: "7⅔ + 1⅓", answer: "9", color: "#118AB2", x: 50, y: 230, width: 180, height: 160 },
-    { id: 6, expression: "6¼ × ¾", answer: "4¹¹⁄₁₆", color: "#7209B7", x: 250, y: 230, width: 180, height: 160 },
-    { id: 7, expression: "8½ - 3¾", answer: "4¾", color: "#EF476F", x: 450, y: 230, width: 180, height: 160 },
-    { id: 8, expression: "9 ÷ 2¼", answer: "4", color: "#073B4C", x: 650, y: 230, width: 180, height: 160 },
-    
-    // Третий ряд (нижний)
-    { id: 9, expression: "4⅔ + 3⅓", answer: "8", color: "#FF9E00", x: 50, y: 410, width: 180, height: 160 },
-    { id: 10, expression: "5½ × 1½", answer: "8¼", color: "#8338EC", x: 250, y: 410, width: 180, height: 160 },
-    { id: 11, expression: "7¼ - 2½", answer: "4¾", color: "#06D6A0", x: 450, y: 410, width: 180, height: 160 },
-    { id: 12, expression: "6⅔ ÷ ⅔", answer: "10", color: "#FF6B6B", x: 650, y: 410, width: 180, height: 160 }
-];
-
-// Инициализация игры
-function initGame() {
-    console.log("Инициализация игры...");
-    
-    // Инициализация канваса
-    initCanvas();
-    
-    // Создание задач
-    createProblems();
-    
-    // Создание палитры
-    createColorPalette();
-    
-    // Настройка инструментов
-    setupTools();
-    
-    // Настройка обработчиков событий
-    setupEventHandlers();
-    
-    // Рисуем начальную картинку
-    drawPictureOutline();
-    
-    console.log("Игра инициализирована!");
+/* Основные стили */
+* {
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-// Инициализация при загрузке страницы
-document.addEventListener('DOMContentLoaded', initGame);
-
-// Инициализация канваса
-function initCanvas() {
-    gameCanvas = document.getElementById('gameCanvas');
-    if (!gameCanvas) {
-        console.error("Canvas не найден!");
-        return;
-    }
-    
-    gameCtx = gameCanvas.getContext('2d');
-    
-    // Устанавливаем размеры
-    gameCanvas.width = 800;
-    gameCanvas.height = 600;
-    
-    // Обработчики событий мыши
-    gameCanvas.addEventListener('mousedown', startDrawing);
-    gameCanvas.addEventListener('mousemove', draw);
-    gameCanvas.addEventListener('mouseup', stopDrawing);
-    gameCanvas.addEventListener('mouseout', stopDrawing);
-    
-    // Обработчики для сенсорных устройств
-    gameCanvas.addEventListener('touchstart', function(e) {
-        e.preventDefault();
-        if (e.touches.length === 1) {
-            const rect = gameCanvas.getBoundingClientRect();
-            const touch = e.touches[0];
-            lastX = touch.clientX - rect.left;
-            lastY = touch.clientY - rect.top;
-            isDrawing = true;
-        }
-    });
-    
-    gameCanvas.addEventListener('touchmove', function(e) {
-        e.preventDefault();
-        if (isDrawing && e.touches.length === 1) {
-            const rect = gameCanvas.getBoundingClientRect();
-            const touch = e.touches[0];
-            const currentX = touch.clientX - rect.left;
-            const currentY = touch.clientY - rect.top;
-            
-            // Рисуем линию
-            drawLine(lastX, lastY, currentX, currentY);
-            
-            lastX = currentX;
-            lastY = currentY;
-        }
-    });
-    
-    gameCanvas.addEventListener('touchend', stopDrawing);
+body {
+    margin: 0;
+    padding: 20px;
+    background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+    color: #333;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-// Рисуем контуры картинки
-function drawPictureOutline() {
-    if (!gameCtx) return;
-    
-    // Очищаем канвас
-    gameCtx.clearRect(0, 0, gameCanvas.width, gameCanvas.height);
-    
-    // Белый фон
-    gameCtx.fillStyle = '#FFFFFF';
-    gameCtx.fillRect(0, 0, gameCanvas.width, gameCanvas.height);
-    
-    // Рисуем все области
-    MATH_PROBLEMS.forEach(problem => {
-        // Контур области
-        gameCtx.strokeStyle = problem.color;
-        gameCtx.lineWidth = 3;
-        gameCtx.strokeRect(problem.x, problem.y, problem.width, problem.height);
-        
-        // Номер задачи
-        gameCtx.fillStyle = problem.color;
-        gameCtx.font = 'bold 24px Comic Neue';
-        gameCtx.textAlign = 'center';
-        gameCtx.fillText(problem.id.toString(), 
-            problem.x + problem.width/2, 
-            problem.y + 30);
-        
-        // Математическое выражение
-        gameCtx.font = 'bold 28px Comic Neue';
-        gameCtx.fillText(problem.expression, 
-            problem.x + problem.width/2, 
-            problem.y + problem.height/2 + 10);
-    });
+.container {
+    width: 100%;
+    max-width: 900px;
+    background-color: white;
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+    padding: 40px;
+    margin-top: 20px;
+    animation: fadeIn 0.8s ease-out;
 }
 
-// Создание списка задач
-function createProblems() {
-    const problemsList = document.getElementById('problemsList');
-    if (!problemsList) return;
-    
-    problemsList.innerHTML = '';
-    
-    MATH_PROBLEMS.forEach(problem => {
-        const problemItem = document.createElement('div');
-        problemItem.className = 'problem-item';
-        problemItem.dataset.problemId = problem.id;
-        
-        problemItem.innerHTML = `
-            <div class="problem-header">
-                <div class="problem-number">${problem.id}</div>
-                <div class="problem-expression">${problem.expression}</div>
-            </div>
-            <input type="text" 
-                   class="answer-input" 
-                   placeholder="Ответ..."
-                   data-problem="${problem.id}">
-            <button class="check-btn" data-problem="${problem.id}">
-                Проверить
-            </button>
-        `;
-        
-        problemsList.appendChild(problemItem);
-    });
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
-// Создание палитры цветов
-function createColorPalette() {
-    const colorPalette = document.getElementById('colorPalette');
-    if (!colorPalette) return;
-    
-    colorPalette.innerHTML = '';
-    
-    // Берем уникальные цвета из задач
-    const uniqueColors = [...new Set(MATH_PROBLEMS.map(p => p.color))];
-    
-    uniqueColors.forEach((color, index) => {
-        const colorItem = document.createElement('div');
-        colorItem.className = 'color-item locked';
-        colorItem.style.backgroundColor = color;
-        colorItem.dataset.color = color;
-        colorItem.dataset.problemId = index + 1;
-        colorItem.title = `Цвет для задачи ${index + 1}`;
-        colorItem.innerHTML = '<i class="fas fa-lock"></i>';
-        
-        colorItem.addEventListener('click', function() {
-            if (!this.classList.contains('locked')) {
-                selectColor(color);
-            }
-        });
-        
-        colorPalette.appendChild(colorItem);
-    });
-    
-    // Устанавливаем первый цвет как активный
-    const currentColorEl = document.getElementById('currentColor');
-    if (currentColorEl && uniqueColors.length > 0) {
-        currentColorEl.style.backgroundColor = uniqueColors[0];
-        currentColor = uniqueColors[0];
-    }
+/* Заголовок */
+header {
+    text-align: center;
+    margin-bottom: 30px;
 }
 
-// Настройка инструментов
-function setupTools() {
-    // Кнопки инструментов
-    const toolButtons = document.querySelectorAll('.tool-btn');
-    toolButtons.forEach(btn => {
-        btn.addEventListener('click', function() {
-            toolButtons.forEach(b => b.classList.remove('active'));
-            this.classList.add('active');
-            currentTool = this.dataset.tool;
-            
-            // Если выбран ластик, меняем цвет на белый
-            if (currentTool === 'eraser') {
-                gameCtx.globalCompositeOperation = 'destination-out';
-            } else {
-                gameCtx.globalCompositeOperation = 'source-over';
-            }
-        });
-    });
-    
-    // Регулятор размера кисти
-    const brushSizeInput = document.getElementById('brushSize');
-    const brushSizeValue = document.getElementById('brushSizeValue');
-    
-    if (brushSizeInput && brushSizeValue) {
-        brushSizeInput.addEventListener('input', function() {
-            brushSize = parseInt(this.value);
-            brushSizeValue.textContent = brushSize;
-        });
-    }
+h1 {
+    color: #2c3e50;
+    font-size: 2.7rem;
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
 }
 
-// Настройка обработчиков событий
-function setupEventHandlers() {
-    // Кнопка начала игры
-    const startBtn = document.getElementById('startGameBtn');
-    if (startBtn) {
-        startBtn.addEventListener('click', startRegistration);
-    }
-    
-    // Кнопка очистки
-    const clearBtn = document.getElementById('clearBtn');
-    if (clearBtn) {
-        clearBtn.addEventListener('click', function() {
-            if (confirm('Очистить весь рисунок?')) {
-                drawPictureOutline();
-            }
-        });
-    }
-    
-    // Кнопка завершения игры
-    const finishBtn = document.getElementById('finishGameBtn');
-    if (finishBtn) {
-        finishBtn.addEventListener('click', finishGame);
-    }
-    
-    // Кнопки проверки задач
-    document.addEventListener('click', function(e) {
-        if (e.target.classList.contains('check-btn')) {
-            const problemId = parseInt(e.target.dataset.problem);
-            checkGameAnswer(problemId);
-        }
-    });
-    
-    // Обработчики ввода в поля ответов
-    document.addEventListener('keypress', function(e) {
-        if (e.target.classList.contains('answer-input') && e.key === 'Enter') {
-            const problemId = parseInt(e.target.dataset.problem);
-            checkGameAnswer(problemId);
-        }
-    });
-    
-    // Модальное окно
-    const closeModalBtn = document.getElementById('closeModal');
-    if (closeModalBtn) {
-        closeModalBtn.addEventListener('click', function() {
-            document.getElementById('resultsModal').style.display = 'none';
-        });
-    }
-    
-    // Кнопка отправки результатов
-    const sendResultsBtn = document.getElementById('sendResultsBtn');
-    if (sendResultsBtn) {
-        sendResultsBtn.addEventListener('click', sendResultsToEmail);
-    }
-    
-    // Кнопка новой игры
-    const newGameBtn = document.getElementById('newGameBtn');
-    if (newGameBtn) {
-        newGameBtn.addEventListener('click', startNewGame);
-    }
+.subtitle {
+    color: #7f8c8d;
+    font-size: 1.3rem;
+    margin-bottom: 30px;
 }
 
-// Начало регистрации
-function startRegistration() {
-    const firstName = document.getElementById('firstName').value.trim();
-    const lastName = document.getElementById('lastName').value.trim();
-    const className = document.getElementById('classSelect').value;
-    
-    if (!firstName || !lastName || !className) {
-        alert('Пожалуйста, заполните все поля!');
-        return;
-    }
-    
-    // Сохраняем данные
-    studentData = {
-        firstName,
-        lastName,
-        className: `${className} класс`,
-        teacherEmail: 'vadimkut9@gmail.com',
-        gameTime: 0,
-        solvedProblems: 0
-    };
-    
-    // Обновляем отображение
-    document.getElementById('playerName').textContent = `${firstName} ${lastName}`;
-    
-    // Показываем задачи, скрываем регистрацию
-    document.getElementById('registrationPanel').style.display = 'none';
-    document.getElementById('tasksPanel').style.display = 'block';
-    
-    // Запускаем таймер
-    startGameTimer();
-    
-    // Скрываем оверлей канваса
-    document.querySelector('.canvas-overlay').style.display = 'none';
-    
-    console.log('Игра начата для:', studentData);
+/* Информация об игре */
+.game-info {
+    display: flex;
+    justify-content: space-between;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    padding: 20px;
+    border-radius: 15px;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+    border: 3px solid #e0e0e0;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
 }
 
-// Запуск таймера
-function startGameTimer() {
-    clearInterval(gameTimer);
-    gameTime = 0;
-    updateTimerDisplay();
-    
-    gameTimer = setInterval(() => {
-        gameTime++;
-        updateTimerDisplay();
-    }, 1000);
+.info-item {
+    text-align: center;
+    flex: 1;
+    min-width: 150px;
+    margin: 10px;
+    padding: 15px;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    transition: transform 0.3s;
 }
 
-// Обновление отображения таймера
-function updateTimerDisplay() {
-    const timerElement = document.getElementById('gameTimer');
-    if (timerElement) {
-        const minutes = Math.floor(gameTime / 60);
-        const seconds = gameTime % 60;
-        timerElement.textContent = 
-            `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-    }
+.info-item:hover {
+    transform: translateY(-5px);
 }
 
-// Проверка ответа
-function checkGameAnswer(problemId) {
-    const problem = MATH_PROBLEMS.find(p => p.id === problemId);
-    if (!problem) return;
-    
-    const input = document.querySelector(`input[data-problem="${problemId}"]`);
-    const problemItem = input.closest('.problem-item');
-    
-    if (!input.value.trim()) {
-        alert('Введите ответ!');
-        return;
+.info-label {
+    font-size: 1rem;
+    color: #7f8c8d;
+    font-weight: 600;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.info-value {
+    font-size: 2.2rem;
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+/* Секции */
+.section {
+    margin-bottom: 30px;
+    display: none;
+    animation: slideIn 0.5s ease-out;
+}
+
+@keyframes slideIn {
+    from { opacity: 0; transform: translateX(-20px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+.active-section {
+    display: block;
+}
+
+/* Кнопки выбора темы */
+.topic-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+    margin-bottom: 40px;
+}
+
+.topic-btn {
+    padding: 18px 25px;
+    background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    flex: 1;
+    min-width: 220px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    box-shadow: 0 6px 12px rgba(52, 152, 219, 0.3);
+}
+
+.topic-btn:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(52, 152, 219, 0.4);
+    background: linear-gradient(135deg, #2980b9 0%, #2573a7 100%);
+}
+
+.topic-btn.active {
+    background: linear-gradient(135deg, #2c3e50 0%, #1a252f 100%);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+}
+
+.topic-btn i {
+    font-size: 1.3rem;
+}
+
+/* Контейнер вопроса */
+.question-container {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    padding: 30px;
+    border-radius: 15px;
+    margin-bottom: 30px;
+    text-align: center;
+    border: 3px solid #e0e0e0;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+}
+
+.question {
+    font-size: 1.8rem;
+    margin-bottom: 30px;
+    color: #2c3e50;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+/* Контейнер ответов */
+.answers {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+.answer-btn {
+    padding: 18px 25px;
+    background-color: white;
+    border: 3px solid #dfe6e9;
+    border-radius: 12px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    flex: 1;
+    min-width: 200px;
+    max-width: 250px;
+    font-weight: 500;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+}
+
+.answer-btn:hover {
+    border-color: #3498db;
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(52, 152, 219, 0.2);
+    background-color: #f8fafc;
+}
+
+.answer-btn.correct {
+    background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+    color: white;
+    border-color: #27ae60;
+    box-shadow: 0 6px 12px rgba(46, 204, 113, 0.3);
+}
+
+.answer-btn.wrong {
+    background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+    color: white;
+    border-color: #c0392b;
+    box-shadow: 0 6px 12px rgba(231, 76, 60, 0.3);
+}
+
+.answer-btn:disabled {
+    cursor: not-allowed;
+    opacity: 0.8;
+}
+
+/* Прогресс бар */
+.progress-bar {
+    width: 100%;
+    height: 25px;
+    background-color: #ecf0f1;
+    border-radius: 12px;
+    margin: 30px 0;
+    overflow: hidden;
+    border: 2px solid #d5dbdb;
+}
+
+.progress {
+    height: 100%;
+    background: linear-gradient(90deg, #2ecc71 0%, #27ae60 100%);
+    width: 0%;
+    transition: width 0.5s;
+    border-radius: 10px;
+}
+
+/* Кнопки управления */
+.controls {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+    gap: 20px;
+}
+
+.control-btn {
+    padding: 16px 35px;
+    background: linear-gradient(135deg, #2c3e50 0%, #1a252f 100%);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    flex: 1;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}
+
+.control-btn:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    background: linear-gradient(135deg, #1a252f 0%, #0d1318 100%);
+}
+
+.control-btn:disabled {
+    background: linear-gradient(135deg, #bdc3c7 0%, #95a5a6 100%);
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* Результаты */
+.result {
+    text-align: center;
+    padding: 40px;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-radius: 15px;
+    margin-top: 20px;
+    border: 3px solid #e0e0e0;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    animation: resultAppear 0.8s ease-out;
+}
+
+@keyframes resultAppear {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+.result h3 {
+    color: #2c3e50;
+    margin-bottom: 25px;
+    font-size: 2.2rem;
+}
+
+.result p {
+    font-size: 1.3rem;
+    margin: 15px 0;
+    color: #34495e;
+}
+
+.result p i {
+    color: #3498db;
+    width: 25px;
+}
+
+#result-message {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: #2c3e50;
+    margin: 30px 0;
+    padding: 20px;
+    background-color: white;
+    border-radius: 12px;
+    border-left: 5px solid #3498db;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .container {
+        padding: 20px;
+        margin-top: 10px;
     }
     
-    const userAnswer = normalizeAnswer(input.value.trim());
-    const correctAnswer = normalizeAnswer(problem.answer);
+    h1 {
+        font-size: 2rem;
+    }
     
-    if (userAnswer === correctAnswer) {
-        // Правильный ответ
-        input.classList.add('correct');
-        input.classList.remove('incorrect');
-        problemItem.classList.add('solved');
-        
-        // Разблокируем соответствующий цвет
-        unlockColor(problem.color);
-        
-        // Увеличиваем счетчик решенных задач
-        solvedProblems++;
-        document.getElementById('solvedCount').textContent = solvedProblems;
-        
-        // Активируем кнопку завершения, если решены все задачи
-        if (solvedProblems === totalProblems) {
-            document.getElementById('finishGameBtn').disabled = false;
-        }
-        
-        console.log(`Задача ${problemId} решена правильно!`);
-    } else {
-        // Неправильный ответ
-        input.classList.add('incorrect');
-        input.classList.remove('correct');
-        alert('Неверный ответ! Попробуйте еще раз.');
+    .subtitle {
+        font-size: 1.1rem;
+    }
+    
+    .game-info {
+        flex-direction: column;
+        align-items: center;
+        padding: 15px;
+    }
+    
+    .info-item {
+        min-width: 100%;
+    }
+    
+    .topic-btn, .answer-btn {
+        min-width: 100%;
+        max-width: 100%;
+    }
+    
+    .controls {
+        flex-direction: column;
+    }
+    
+    .question {
+        font-size: 1.5rem;
+    }
+    
+    .result {
+        padding: 25px;
+    }
+    
+    .result h3 {
+        font-size: 1.8rem;
+    }
+    
+    .result p {
+        font-size: 1.1rem;
     }
 }
 
-// Разблокировка цвета
-function unlockColor(color) {
-    const colorItems = document.querySelectorAll('.color-item');
-    colorItems.forEach(item => {
-        if (item.style.backgroundColor === color) {
-            item.classList.remove('locked');
-            item.innerHTML = '';
-            
-            // Если это первый разблокированный цвет, выбираем его
-            if (!currentColor || currentColor === '#FF6B6B') {
-                selectColor(color);
-            }
-        }
-    });
+/* Иконки */
+.fa-fraction {
+    background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
-// Выбор цвета
-function selectColor(color) {
-    currentColor = color;
-    
-    // Обновляем отображение текущего цвета
-    const currentColorEl = document.getElementById('currentColor');
-    if (currentColorEl) {
-        currentColorEl.style.backgroundColor = color;
-    }
-    
-    // Обновляем активный цвет в палитре
-    document.querySelectorAll('.color-item').forEach(item => {
-        item.classList.remove('active');
-        if (item.style.backgroundColor === color && !item.classList.contains('locked')) {
-            item.classList.add('active');
-        }
-    });
+.fa-brackets-curly:before {
+    content: "{ }";
+    font-weight: bold;
 }
-
-// Функции рисования
-function startDrawing(e) {
-    e.preventDefault();
-    isDrawing = true;
-    
-    const rect = gameCanvas.getBoundingClientRect();
-    lastX = e.clientX - rect.left;
-    lastY = e.clientY - rect.top;
-}
-
-function draw(e) {
-    if (!isDrawing) return;
-    e.preventDefault();
-    
-    const rect = gameCanvas.getBoundingClientRect();
-    const currentX = e.clientX - rect.left;
-    const currentY = e.clientY - rect.top;
-    
-    drawLine(lastX, lastY, currentX, currentY);
-    
-    lastX = currentX;
-    lastY = currentY;
-}
-
-function drawLine(x1, y1, x2, y2) {
-    gameCtx.beginPath();
-    gameCtx.moveTo(x1, y1);
-    gameCtx.lineTo(x2, y2);
-    
-    if (currentTool === 'eraser') {
-        gameCtx.strokeStyle = 'rgba(255,255,255,1)';
-    } else {
-        gameCtx.strokeStyle = currentColor;
-    }
-    
-    gameCtx.lineWidth = brushSize;
-    gameCtx.lineCap = 'round';
-    gameCtx.lineJoin = 'round';
-    gameCtx.stroke();
-}
-
-function stopDrawing() {
-    isDrawing = false;
-}
-
-// Завершение игры
-function finishGame() {
-    clearInterval(gameTimer);
-    
-    // Сохраняем время
-    studentData.gameTime = gameTime;
-    studentData.solvedProblems = solvedProblems;
-    
-    // Показываем модальное окно с результатами
-    showResultsModal();
-}
-
-// Показ модального окна с результатами
-function showResultsModal() {
-    const modal = document.getElementById('resultsModal');
-    const minutes = Math.floor(gameTime / 60);
-    const seconds = gameTime % 60;
-    
-    // Заполняем данные в модальном окне
-    document.getElementById('resultStudentName').textContent = 
-        `${studentData.firstName} ${studentData.lastName}, ${studentData.className}`;
-    
-    document.getElementById('resultTime').textContent = 
-        `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-    
-    document.getElementById('resultTasks').textContent = 
-        `${solvedProblems}/${totalProblems}`;
-    
-    // Показываем модальное окно
-    modal.style.display = 'flex';
-}
-
-// Отправка результатов на email
-async function sendResultsToEmail() {
-    const sendBtn = document.getElementById('sendResultsBtn');
-    const statusElement = document.getElementById('sendStatus');
-    
-    // Блокируем кнопку
-    sendBtn.disabled = true;
-    sendBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Отправка...';
-    
-    // Формируем данные для отправки
-    const minutes = Math.floor(studentData.gameTime / 60);
-    const seconds = studentData.gameTime % 60;
-    
-    const gameData = {
-        student: `${studentData.firstName} ${studentData.lastName}`,
-        class: studentData.className,
-        time: `${minutes} минут ${seconds} секунд`,
-        tasks: `${solvedProblems}/${totalProblems}`,
-        date: new Date().toLocaleString(),
-        teacherEmail: studentData.teacherEmail
-    };
-    
-    try {
-        // Отправляем данные на сервер
-        const response = await fetch('save_result.php', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(gameData)
-        });
-        
-        if (response.ok) {
-            // Успешная отправка
-            statusElement.textContent = '✅ Результаты успешно отправлены!';
-            statusElement.className = 'status-message success';
-            
-            // Показываем сообщение на 3 секунды
-            setTimeout(() => {
-                statusElement.style.display = 'none';
-                // Можно закрыть модальное окно
-                document.getElementById('resultsModal').style.display = 'none';
-            }, 3000);
-            
-            console.log('Результаты отправлены на email:', studentData.teacherEmail);
-        } else {
-            throw new Error('Ошибка сервера');
-        }
-    } catch (error) {
-        // Ошибка отправки
-        console.error('Ошибка отправки:', error);
-        statusElement.textContent = '❌ Ошибка отправки. Попробуйте еще раз.';
-        statusElement.className = 'status-message error';
-        statusElement.style.display = 'block';
-        
-        // Разблокируем кнопку
-        sendBtn.disabled = false;
-        sendBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Отправить учителю';
-    }
-}
-
-// Начало новой игры
-function startNewGame() {
-    // Скрываем модальное окно
-    document.getElementById('resultsModal').style.display = 'none';
-    
-    // Сбрасываем данные
-    studentData = {
-        firstName: '',
-        lastName: '',
-        className: '',
-        teacherEmail: 'vadimkut9@gmail.com',
-        gameTime: 0,
-        solvedProblems: 0
-    };
-    
-    // Сбрасываем счетчики
-    solvedProblems = 0;
-    gameTime = 0;
-    
-    // Обновляем отображение
-    document.getElementById('playerName').textContent = 'Не указан';
-    document.getElementById('solvedCount').textContent = '0';
-    document.getElementById('gameTimer').textContent = '00:00';
-    
-    // Сбрасываем задачи
-    document.querySelectorAll('.problem-item').forEach(item => {
-        item.classList.remove('solved');
-        const input = item.querySelector('.answer-input');
-        input.value = '';
-        input.classList.remove('correct', 'incorrect');
-    });
-    
-    // Сбрасываем цвета
-    document.querySelectorAll('.color-item').forEach(item => {
-        item.classList.add('locked');
-        item.innerHTML = '<i class="fas fa-lock"></i>';
-        item.classList.remove('active');
-    });
-    
-    // Показываем регистрацию, скрываем задачи
-    document.getElementById('registrationPanel').style.display = 'block';
-    document.getElementById('tasksPanel').style.display = 'none';
-    
-    // Показываем оверлей канваса
-    document.querySelector('.canvas-overlay').style.display = 'flex';
-    
-    // Блокируем кнопку завершения
-    document.getElementById('finishGameBtn').disabled = true;
-    
-    // Перерисовываем картинку
-    drawPictureOutline();
-    
-    // Останавливаем таймер
-    clearInterval(gameTimer);
-    
-    console.log('Новая игра начата');
-}
-
-// Вспомогательные функции
-function normalizeAnswer(answer) {
-    // Приводим ответы к единому формату
-    return answer
-        .replace(/½/g, '1/2')
-        .replace(/⅓/g, '1/3')
-        .replace(/⅔/g, '2/3')
-        .replace(/¼/g, '1/4')
-        .replace(/¾/g, '3/4')
-        .replace(/¹¹⁄₁₆/g, '11/16')
-        .replace(/⁄/g, '/')
-        .toLowerCase()
-        .trim();
-}
-
-// Экспортируем функции для глобального доступа
-window.checkGameAnswer = checkGameAnswer;
-window.startNewGame = startNewGame;
-window.sendResultsToEmail = sendResultsToEmail;
