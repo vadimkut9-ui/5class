@@ -41,36 +41,6 @@ const questions = {
             answers: ["11/14", "3/9", "3/14", "9/14"],
             correct: 0,
             hint: "Приведи дроби к общему знаменателю 14: 1/2 = 7/14, 2/7 = 4/14, 7/14 + 4/14 = 11/14"
-        },
-        {
-            question: "Вычисли: 4/9 - 1/6",
-            answers: ["5/18", "3/3", "3/18", "1/3"],
-            correct: 0,
-            hint: "Приведи дроби к общему знаменателю 18: 4/9 = 8/18, 1/6 = 3/18, 8/18 - 3/18 = 5/18"
-        },
-        {
-            question: "Вычисли: 3/8 + 1/4",
-            answers: ["5/8", "4/12", "2/8", "1/2"],
-            correct: 0,
-            hint: "Приведи дроби к общему знаменателю 8: 1/4 = 2/8, 3/8 + 2/8 = 5/8"
-        },
-        {
-            question: "Вычисли: 7/10 - 2/5",
-            answers: ["3/10", "5/5", "1/2", "5/10"],
-            correct: 0,
-            hint: "Приведи дроби к общему знаменателю 10: 2/5 = 4/10, 7/10 - 4/10 = 3/10"
-        },
-        {
-            question: "Вычисли: 2/3 + 3/5",
-            answers: ["19/15", "5/8", "6/15", "1 4/15"],
-            correct: 3,
-            hint: "Приведи дроби к общему знаменателю 15: 2/3 = 10/15, 3/5 = 9/15, 10/15 + 9/15 = 19/15 = 1 4/15"
-        },
-        {
-            question: "Вычисли: 5/12 - 1/6",
-            answers: ["1/4", "4/6", "3/12", "2/12"],
-            correct: 0,
-            hint: "Приведи дроби к общему знаменателю 12: 1/6 = 2/12, 5/12 - 2/12 = 3/12 = 1/4"
         }
     ],
     comparison: [
@@ -135,36 +105,6 @@ const questions = {
             answers: ["32x - 16", "32x + 16", "12x - 16", "32x - 2"],
             correct: 0,
             hint: "Умножь каждое слагаемое в скобках на 8: 8 × 4x = 32x, 8 × 2 = 16, получаем 32x - 16"
-        },
-        {
-            question: "Раскрой скобки: 3(5x + 6)",
-            answers: ["15x + 18", "15x + 6", "8x + 18", "15x + 9"],
-            correct: 0,
-            hint: "Умножь каждое слагаемое в скобках на 3: 3 × 5x = 15x, 3 × 6 = 18, получаем 15x + 18"
-        },
-        {
-            question: "Раскрой скобки: 9(2x - 3)",
-            answers: ["18x - 27", "18x + 27", "11x - 27", "18x - 3"],
-            correct: 0,
-            hint: "Умножь каждое слагаемое в скобках на 9: 9 × 2x = 18x, 9 × 3 = 27, получаем 18x - 27"
-        },
-        {
-            question: "Раскрой скобки: 2(7x + 5)",
-            answers: ["14x + 10", "14x + 5", "9x + 10", "14x + 7"],
-            correct: 0,
-            hint: "Умножь каждое слагаемое в скобках на 2: 2 × 7x = 14x, 2 × 5 = 10, получаем 14x + 10"
-        },
-        {
-            question: "Раскрой скобки: 10(3x - 4)",
-            answers: ["30x - 40", "30x + 40", "13x - 40", "30x - 4"],
-            correct: 0,
-            hint: "Умножь каждое слагаемое в скобках на 10: 10 × 3x = 30x, 10 × 4 = 40, получаем 30x - 40"
-        },
-        {
-            question: "Раскрой скобки: 5(6x + 2)",
-            answers: ["30x + 10", "30x + 2", "11x + 10", "30x + 7"],
-            correct: 0,
-            hint: "Умножь каждое слагаемое в скобках на 5: 5 × 6x = 30x, 5 × 2 = 10, получаем 30x + 10"
         }
     ],
     equations: [
@@ -197,36 +137,6 @@ const questions = {
             answers: ["x = 20", "x = 9", "x = 1", "x = 10"],
             correct: 0,
             hint: "Чтобы найти x, нужно 5 умножить на 4: x = 5 × 4 = 20"
-        },
-        {
-            question: "Реши уравнение: 5x - 6 = 19",
-            answers: ["x = 5", "x = 13", "x = 25", "x = 4"],
-            correct: 0,
-            hint: "Сначала прибавь 6: 5x = 19 + 6 = 25, затем раздели на 5: x = 25 ÷ 5 = 5"
-        },
-        {
-            question: "Реши уравнение: x + 12 = 30",
-            answers: ["x = 18", "x = 42", "x = 22", "x = 17"],
-            correct: 0,
-            hint: "Чтобы найти x, нужно из 30 вычесть 12: x = 30 - 12 = 18"
-        },
-        {
-            question: "Реши уравнение: 4x = 36",
-            answers: ["x = 9", "x = 32", "x = 40", "x = 144"],
-            correct: 0,
-            hint: "Чтобы найти x, нужно 36 разделить на 4: x = 36 ÷ 4 = 9"
-        },
-        {
-            question: "Реши уравнение: x - 8 = 15",
-            answers: ["x = 23", "x = 7", "x = 22", "x = 120"],
-            correct: 0,
-            hint: "Чтобы найти x, нужно к 15 прибавить 8: x = 15 + 8 = 23"
-        },
-        {
-            question: "Реши уравнение: 3x + 7 = 22",
-            answers: ["x = 5", "x = 15", "x = 6", "x = 29"],
-            correct: 0,
-            hint: "Сначала вычти 7: 3x = 22 - 7 = 15, затем раздели на 3: x = 15 ÷ 3 = 5"
         }
     ],
     history: [
@@ -259,36 +169,6 @@ const questions = {
             answers: ["Архимед", "Пифагор", "Евклид", "Ньютон"],
             correct: 0,
             hint: "Древнегреческий ученый, который приблизительно вычислил значение этого числа"
-        },
-        {
-            question: "Что означает слово «математика» в переводе с греческого?",
-            answers: ["Знание", "Наука", "Искусство", "Число"],
-            correct: 0,
-            hint: "В переводе с древнегреческого это слово означает «наука», «знание»"
-        },
-        {
-            question: "Кто создал таблицу умножения?",
-            answers: ["Пифагор", "Евклид", "Архимед", "Вавилоняне"],
-            correct: 0,
-            hint: "Древнегреческий математик, именем которого названа знаменитая таблица"
-        },
-        {
-            question: "В какой древней стране использовали дробные числа при расчетах?",
-            answers: ["Египет", "Греция", "Рим", "Вавилон"],
-            correct: 0,
-            hint: "Древние египтяне использовали дроби в строительстве пирамид"
-        },
-        {
-            question: "Кто ввел понятие «ноль» в математику?",
-            answers: ["Индийские математики", "Арабы", "Греки", "Китайцы"],
-            correct: 0,
-            hint: "Концепция нуля как числа была разработана в Древней Индии"
-        },
-        {
-            question: "Какой математик сказал: «Дайте мне точку опоры, и я переверну мир»?",
-            answers: ["Архимед", "Пифагор", "Евклид", "Ньютон"],
-            correct: 0,
-            hint: "Древнегреческий ученый, знаменитый своими открытиями в механике"
         }
     ]
 };
@@ -302,216 +182,266 @@ const topicNames = {
     history: "История математики"
 };
 
-// Элементы DOM
-const topicSection = document.getElementById('topic-section');
-const gameSection = document.getElementById('game-section');
-const resultSection = document.getElementById('result-section');
-const topicButtons = document.querySelectorAll('.topic-btn');
-const startGameBtn = document.getElementById('start-game');
-const nextBtn = document.getElementById('next-btn');
-const hintBtn = document.getElementById('hint-btn');
-const restartBtn = document.getElementById('restart-btn');
-const changeTopicBtn = document.getElementById('change-topic-btn');
-const questionText = document.getElementById('question-text');
-const answersContainer = document.getElementById('answers-container');
-const scoreElement = document.getElementById('score');
-const questionCountElement = document.getElementById('question-count');
-const levelElement = document.getElementById('level');
-const currentTopicElement = document.getElementById('current-topic');
-const progressBar = document.getElementById('progress-bar');
-const resultTopic = document.getElementById('result-topic');
-const resultScore = document.getElementById('result-score');
-const correctAnswersElement = document.getElementById('correct-answers');
-const resultMessage = document.getElementById('result-message');
+// Инициализация при загрузке страницы
+document.addEventListener('DOMContentLoaded', function() {
+    // Получаем все элементы DOM
+    const topicSection = document.getElementById('topic-section');
+    const gameSection = document.getElementById('game-section');
+    const resultSection = document.getElementById('result-section');
+    const topicButtons = document.querySelectorAll('.topic-btn');
+    const startGameBtn = document.getElementById('start-game');
+    const nextBtn = document.getElementById('next-btn');
+    const hintBtn = document.getElementById('hint-btn');
+    const restartBtn = document.getElementById('restart-btn');
+    const changeTopicBtn = document.getElementById('change-topic-btn');
+    const questionText = document.getElementById('question-text');
+    const answersContainer = document.getElementById('answers-container');
+    const scoreElement = document.getElementById('score');
+    const questionCountElement = document.getElementById('question-count');
+    const levelElement = document.getElementById('level');
+    const currentTopicElement = document.getElementById('current-topic');
+    const progressBar = document.getElementById('progress-bar');
+    const resultTopic = document.getElementById('result-topic');
+    const resultScore = document.getElementById('result-score');
+    const correctAnswersElement = document.getElementById('correct-answers');
+    const resultMessage = document.getElementById('result-message');
 
-// Инициализация игры
-function initGame() {
-    // Сброс данных игры
-    gameData.score = 0;
-    gameData.currentQuestion = 0;
-    gameData.correctAnswers = 0;
-    gameData.level = 1;
-    
-    // Обновление отображения
-    updateGameInfo();
-    
-    // Показать выбор темы
-    showSection('topic-section');
-    
-    // Активировать первую тему по умолчанию
-    document.querySelector('.topic-btn.active').classList.remove('active');
-    topicButtons[0].classList.add('active');
-    gameData.currentTopic = topicButtons[0].dataset.topic;
-    
-    // Обновить название текущей темы
-    currentTopicElement.textContent = topicNames[gameData.currentTopic];
-}
-
-// Показать определенную секцию
-function showSection(sectionId) {
-    document.querySelectorAll('.section').forEach(section => {
-        section.classList.remove('active-section');
+    console.log("Страница загружена, элементы найдены:", {
+        startGameBtn: !!startGameBtn,
+        topicButtons: topicButtons.length
     });
-    document.getElementById(sectionId).classList.add('active-section');
-}
 
-// Обновление информации об игре
-function updateGameInfo() {
-    scoreElement.textContent = gameData.score;
-    questionCountElement.textContent = `${gameData.currentQuestion}/${gameData.totalQuestions}`;
-    levelElement.textContent = gameData.level;
-    currentTopicElement.textContent = topicNames[gameData.currentTopic];
-    
-    // Обновление прогресс-бара
-    const progressPercent = (gameData.currentQuestion / gameData.totalQuestions) * 100;
-    progressBar.style.width = `${progressPercent}%`;
-}
-
-// Начать игру
-function startGame() {
-    showSection('game-section');
-    gameData.currentQuestion = 0;
-    gameData.score = 0;
-    gameData.correctAnswers = 0;
-    loadQuestion();
-}
-
-// Загрузить вопрос
-function loadQuestion() {
-    const topicQuestions = questions[gameData.currentTopic];
-    
-    // Если вопросов по теме меньше, чем нужно, дополняем первыми вопросами
-    const questionIndex = gameData.currentQuestion % topicQuestions.length;
-    const question = topicQuestions[questionIndex];
-    
-    // Обновить текст вопроса
-    questionText.textContent = question.question;
-    gameData.currentHint = question.hint;
-    
-    // Очистить контейнер ответов
-    answersContainer.innerHTML = '';
-    
-    // Создать кнопки ответов
-    question.answers.forEach((answer, index) => {
-        const button = document.createElement('button');
-        button.className = 'answer-btn';
-        button.textContent = answer;
-        button.addEventListener('click', () => checkAnswer(index, question.correct));
-        answersContainer.appendChild(button);
-    });
-    
-    // Обновить информацию об игре
-    updateGameInfo();
-    
-    // Отключить кнопку "Следующий вопрос"
-    nextBtn.disabled = true;
-    hintBtn.disabled = false;
-}
-
-// Проверить ответ
-function checkAnswer(selectedIndex, correctIndex) {
-    const answerButtons = document.querySelectorAll('.answer-btn');
-    
-    // Отключить все кнопки
-    answerButtons.forEach(btn => {
-        btn.disabled = true;
-    });
-    
-    // Показать правильный и неправильный ответы
-    answerButtons.forEach((btn, index) => {
-        if (index === correctIndex) {
-            btn.classList.add('correct');
-        } else if (index === selectedIndex && index !== correctIndex) {
-            btn.classList.add('wrong');
-        }
-    });
-    
-    // Проверить, правильный ли ответ
-    if (selectedIndex === correctIndex) {
-        gameData.score += 10 * gameData.level;
-        gameData.correctAnswers++;
+    // Инициализация игры
+    function initGame() {
+        console.log("Инициализация игры");
+        // Сброс данных игры
+        gameData.score = 0;
+        gameData.currentQuestion = 0;
+        gameData.correctAnswers = 0;
+        gameData.level = 1;
         
-        // Повысить уровень после каждых 3 правильных ответов
-        if (gameData.correctAnswers % 3 === 0 && gameData.level < 3) {
-            gameData.level++;
+        // Обновление отображения
+        updateGameInfo();
+        
+        // Показать выбор темы
+        showSection('topic-section');
+        
+        // Активировать первую тему по умолчанию
+        const firstTopicBtn = document.querySelector('.topic-btn[data-topic="fractions"]');
+        if (firstTopicBtn) {
+            topicButtons.forEach(btn => btn.classList.remove('active'));
+            firstTopicBtn.classList.add('active');
+            gameData.currentTopic = 'fractions';
+            currentTopicElement.textContent = topicNames[gameData.currentTopic];
         }
     }
-    
-    // Включить кнопку "Следующий вопрос"
-    nextBtn.disabled = false;
-    hintBtn.disabled = true;
-    
-    // Обновить информацию об игре
-    updateGameInfo();
-}
 
-// Показать подсказку
-function showHint() {
-    alert(gameData.currentHint);
-    hintBtn.disabled = true;
-}
+    // Показать определенную секцию
+    function showSection(sectionId) {
+        console.log("Показываем секцию:", sectionId);
+        [topicSection, gameSection, resultSection].forEach(section => {
+            if (section) section.classList.remove('active-section');
+        });
+        const section = document.getElementById(sectionId);
+        if (section) section.classList.add('active-section');
+    }
 
-// Перейти к следующему вопросу
-function nextQuestion() {
-    gameData.currentQuestion++;
-    
-    if (gameData.currentQuestion < gameData.totalQuestions) {
+    // Обновление информации об игре
+    function updateGameInfo() {
+        if (scoreElement) scoreElement.textContent = gameData.score;
+        if (questionCountElement) questionCountElement.textContent = `${gameData.currentQuestion}/${gameData.totalQuestions}`;
+        if (levelElement) levelElement.textContent = gameData.level;
+        if (currentTopicElement) currentTopicElement.textContent = topicNames[gameData.currentTopic];
+        
+        // Обновление прогресс-бара
+        if (progressBar) {
+            const progressPercent = (gameData.currentQuestion / gameData.totalQuestions) * 100;
+            progressBar.style.width = `${progressPercent}%`;
+        }
+    }
+
+    // Начать игру
+    function startGame() {
+        console.log("Начинаем игру с темой:", gameData.currentTopic);
+        showSection('game-section');
+        gameData.currentQuestion = 0;
+        gameData.score = 0;
+        gameData.correctAnswers = 0;
+        gameData.level = 1;
         loadQuestion();
-    } else {
-        showResults();
     }
-}
 
-// Показать результаты
-function showResults() {
-    showSection('result-section');
-    
-    // Обновить информацию о результатах
-    resultTopic.textContent = topicNames[gameData.currentTopic];
-    resultScore.textContent = gameData.score;
-    correctAnswersElement.textContent = `${gameData.correctAnswers} из ${gameData.totalQuestions}`;
-    
-    // Определить сообщение в зависимости от результата
-    let message = "";
-    const percentage = (gameData.correctAnswers / gameData.totalQuestions) * 100;
-    
-    if (percentage >= 90) {
-        message = "Отлично! Ты настоящий математический гений!";
-    } else if (percentage >= 70) {
-        message = "Хорошо! Ты хорошо разбираешься в математике!";
-    } else if (percentage >= 50) {
-        message = "Неплохо, но есть куда стремиться!";
-    } else {
-        message = "Попробуй еще раз, у тебя обязательно получится!";
+    // Загрузить вопрос
+    function loadQuestion() {
+        console.log("Загружаем вопрос №", gameData.currentQuestion + 1);
+        const topicQuestions = questions[gameData.currentTopic];
+        
+        if (!topicQuestions || topicQuestions.length === 0) {
+            console.error("Нет вопросов для темы:", gameData.currentTopic);
+            return;
+        }
+        
+        // Если вопросов по теме меньше, чем нужно, используем циклически
+        const questionIndex = gameData.currentQuestion % topicQuestions.length;
+        const question = topicQuestions[questionIndex];
+        
+        // Обновить текст вопроса
+        if (questionText) questionText.textContent = question.question;
+        gameData.currentHint = question.hint;
+        
+        // Очистить контейнер ответов
+        if (answersContainer) {
+            answersContainer.innerHTML = '';
+            
+            // Создать кнопки ответов
+            question.answers.forEach((answer, index) => {
+                const button = document.createElement('button');
+                button.className = 'answer-btn';
+                button.textContent = answer;
+                button.addEventListener('click', () => checkAnswer(index, question.correct));
+                answersContainer.appendChild(button);
+            });
+        }
+        
+        // Обновить информацию об игре
+        updateGameInfo();
+        
+        // Отключить кнопку "Следующий вопрос"
+        if (nextBtn) nextBtn.disabled = true;
+        if (hintBtn) hintBtn.disabled = false;
     }
-    
-    resultMessage.textContent = message;
-}
 
-// События
-topicButtons.forEach(button => {
-    button.addEventListener('click', () => {
-        // Убрать активный класс у всех кнопок
-        topicButtons.forEach(btn => btn.classList.remove('active'));
+    // Проверить ответ
+    function checkAnswer(selectedIndex, correctIndex) {
+        console.log("Проверяем ответ:", selectedIndex, "Правильный:", correctIndex);
+        const answerButtons = document.querySelectorAll('.answer-btn');
         
-        // Добавить активный класс нажатой кнопке
-        button.classList.add('active');
+        // Отключить все кнопки
+        answerButtons.forEach(btn => {
+            btn.disabled = true;
+        });
         
-        // Установить текущую тему
-        gameData.currentTopic = button.dataset.topic;
-        currentTopicElement.textContent = topicNames[gameData.currentTopic];
-    });
-});
+        // Показать правильный и неправильный ответы
+        answerButtons.forEach((btn, index) => {
+            if (index === correctIndex) {
+                btn.classList.add('correct');
+            } else if (index === selectedIndex && index !== correctIndex) {
+                btn.classList.add('wrong');
+            }
+        });
+        
+        // Проверить, правильный ли ответ
+        if (selectedIndex === correctIndex) {
+            gameData.score += 10 * gameData.level;
+            gameData.correctAnswers++;
+            
+            // Повысить уровень после каждых 3 правильных ответов
+            if (gameData.correctAnswers % 3 === 0 && gameData.level < 3) {
+                gameData.level++;
+            }
+        }
+        
+        // Включить кнопку "Следующий вопрос"
+        if (nextBtn) nextBtn.disabled = false;
+        if (hintBtn) hintBtn.disabled = true;
+        
+        // Обновить информацию об игре
+        updateGameInfo();
+    }
 
-startGameBtn.addEventListener('click', startGame);
-nextBtn.addEventListener('click', nextQuestion);
-hintBtn.addEventListener('click', showHint);
-restartBtn.addEventListener('click', () => {
-    startGame();
-});
-changeTopicBtn.addEventListener('click', () => {
+    // Показать подсказку
+    function showHint() {
+        console.log("Показываем подсказку");
+        alert(gameData.currentHint);
+        if (hintBtn) hintBtn.disabled = true;
+    }
+
+    // Перейти к следующему вопросу
+    function nextQuestion() {
+        console.log("Переходим к следующему вопросу");
+        gameData.currentQuestion++;
+        
+        if (gameData.currentQuestion < gameData.totalQuestions) {
+            loadQuestion();
+        } else {
+            showResults();
+        }
+    }
+
+    // Показать результаты
+    function showResults() {
+        console.log("Показываем результаты");
+        showSection('result-section');
+        
+        // Обновить информацию о результатах
+        if (resultTopic) resultTopic.textContent = topicNames[gameData.currentTopic];
+        if (resultScore) resultScore.textContent = gameData.score;
+        if (correctAnswersElement) correctAnswersElement.textContent = `${gameData.correctAnswers} из ${gameData.totalQuestions}`;
+        
+        // Определить сообщение в зависимости от результата
+        let message = "";
+        const percentage = (gameData.correctAnswers / gameData.totalQuestions) * 100;
+        
+        if (percentage >= 90) {
+            message = "Отлично! Ты настоящий математический гений!";
+        } else if (percentage >= 70) {
+            message = "Хорошо! Ты хорошо разбираешься в математике!";
+        } else if (percentage >= 50) {
+            message = "Неплохо, но есть куда стремиться!";
+        } else {
+            message = "Попробуй еще раз, у тебя обязательно получится!";
+        }
+        
+        if (resultMessage) resultMessage.textContent = message;
+    }
+
+    // Назначаем обработчики событий
+    if (topicButtons.length > 0) {
+        topicButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                console.log("Выбрана тема:", button.dataset.topic);
+                // Убрать активный класс у всех кнопок
+                topicButtons.forEach(btn => btn.classList.remove('active'));
+                
+                // Добавить активный класс нажатой кнопке
+                button.classList.add('active');
+                
+                // Установить текущую тему
+                gameData.currentTopic = button.dataset.topic;
+                if (currentTopicElement) {
+                    currentTopicElement.textContent = topicNames[gameData.currentTopic] || "Тема не выбрана";
+                }
+            });
+        });
+    }
+
+    if (startGameBtn) {
+        startGameBtn.addEventListener('click', startGame);
+        console.log("Кнопка 'Начать игру' добавлена");
+    }
+
+    if (nextBtn) {
+        nextBtn.addEventListener('click', nextQuestion);
+    }
+
+    if (hintBtn) {
+        hintBtn.addEventListener('click', showHint);
+    }
+
+    if (restartBtn) {
+        restartBtn.addEventListener('click', () => {
+            console.log("Перезапуск игры");
+            startGame();
+        });
+    }
+
+    if (changeTopicBtn) {
+        changeTopicBtn.addEventListener('click', () => {
+            console.log("Возврат к выбору темы");
+            initGame();
+        });
+    }
+
+    // Инициализируем игру при загрузке
     initGame();
 });
-
-// Инициализировать игру при загрузке страницы
-window.addEventListener('DOMContentLoaded', initGame);
