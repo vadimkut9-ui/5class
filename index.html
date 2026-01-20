@@ -17,7 +17,7 @@
         <div class="game-info">
             <div class="info-item">
                 <div class="info-label">ТЕМА</div>
-                <div class="info-value" id="current-topic">-</div>
+                <div class="info-value" id="current-topic">Выберите тему</div>
             </div>
             <div class="info-item">
                 <div class="info-label">БАЛЛЫ</div>
@@ -61,8 +61,10 @@
         
         <div class="section" id="game-section">
             <div class="question-container">
-                <div class="question" id="question-text"></div>
-                <div class="answers" id="answers-container"></div>
+                <div class="question" id="question-text">Здесь будет вопрос</div>
+                <div class="answers" id="answers-container">
+                    <!-- Ответы будут добавляться через JavaScript -->
+                </div>
             </div>
             <div class="progress-bar">
                 <div class="progress" id="progress-bar"></div>
@@ -81,9 +83,9 @@
             <div class="result" id="result-container">
                 <h3><i class="fas fa-trophy"></i> Игра завершена!</h3>
                 <p><i class="fas fa-book"></i> Тема: <span id="result-topic"></span></p>
-                <p><i class="fas fa-star"></i> Твой результат: <span id="result-score"></span> баллов</p>
-                <p><i class="fas fa-check-circle"></i> Правильных ответов: <span id="correct-answers"></span> из 10</p>
-                <p id="result-message"></p>
+                <p><i class="fas fa-star"></i> Твой результат: <span id="result-score">0</span> баллов</p>
+                <p><i class="fas fa-check-circle"></i> Правильных ответов: <span id="correct-answers">0</span> из 10</p>
+                <p id="result-message">Здесь будет результат</p>
                 <div class="controls">
                     <button class="control-btn" id="restart-btn">
                         <i class="fas fa-redo"></i> Играть снова
