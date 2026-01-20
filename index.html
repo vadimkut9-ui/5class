@@ -3,203 +3,99 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Математическая раскраска с дробями</title>
+    <title>Математическая игра для 5 класса</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
+    <header>
+        <h1><i class="fas fa-calculator"></i> Математическая игра для 5 класса</h1>
+        <div class="subtitle">Проверь свои знания по математике!</div>
+    </header>
+    
     <div class="container">
-        <header>
-            <div class="header-content">
-                <div class="logo">
-                    <i class="fas fa-paint-brush"></i>
-                    <h1>Математическая Раскраска</h1>
-                </div>
-                <div class="game-info">
-                    <div class="info-box">
-                        <i class="fas fa-clock"></i>
-                        <div>
-                            <div class="label">Время</div>
-                            <div id="gameTimer" class="value">00:00</div>
-                        </div>
-                    </div>
-                    <div class="info-box">
-                        <i class="fas fa-user"></i>
-                        <div>
-                            <div class="label">Ученик</div>
-                            <div id="playerName" class="value">Не указан</div>
-                        </div>
-                    </div>
-                </div>
+        <div class="game-info">
+            <div class="info-item">
+                <div class="info-label">ТЕМА</div>
+                <div class="info-value" id="current-topic">-</div>
             </div>
-        </header>
-
-        <main class="game-container">
-            <!-- Левая часть: задачи и палитра -->
-            <div class="left-panel">
-                <!-- Регистрация -->
-                <div class="panel registration-panel" id="registrationPanel">
-                    <h2><i class="fas fa-user-plus"></i> Регистрация</h2>
-                    <div class="form-group">
-                        <input type="text" id="firstName" placeholder="Имя ученика" class="form-input">
-                    </div>
-                    <div class="form-group">
-                        <input type="text" id="lastName" placeholder="Фамилия ученика" class="form-input">
-                    </div>
-                    <div class="form-group">
-                        <select id="classSelect" class="form-input">
-                            <option value="">Выберите класс</option>
-                            <option value="5">5 класс</option>
-                            <option value="6">6 класс</option>
-                            <option value="7">7 класс</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <input type="email" id="teacherEmail" value="vadimkut9@gmail.com" class="form-input" readonly>
-                    </div>
-                    <button id="startGameBtn" class="btn start-btn">
-                        <i class="fas fa-play"></i> Начать игру
+            <div class="info-item">
+                <div class="info-label">БАЛЛЫ</div>
+                <div class="info-value" id="score">0</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">ВОПРОС</div>
+                <div class="info-value" id="question-count">0/10</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">УРОВЕНЬ</div>
+                <div class="info-value" id="level">1</div>
+            </div>
+        </div>
+        
+        <div class="section active-section" id="topic-section">
+            <h2><i class="fas fa-book-open"></i> Выбери тему:</h2>
+            <div class="topic-buttons">
+                <button class="topic-btn active" data-topic="fractions">
+                    <i class="fas fa-divide"></i> Сложение и вычитание дробей
+                </button>
+                <button class="topic-btn" data-topic="comparison">
+                    <i class="fas fa-balance-scale"></i> Сравнение дробей
+                </button>
+                <button class="topic-btn" data-topic="brackets">
+                    <i class="fas fa-brackets-curly"></i> Раскрытие скобок
+                </button>
+                <button class="topic-btn" data-topic="equations">
+                    <i class="fas fa-equals"></i> Уравнения
+                </button>
+                <button class="topic-btn" data-topic="history">
+                    <i class="fas fa-history"></i> История математики
+                </button>
+            </div>
+            <div class="controls">
+                <button class="control-btn" id="start-game">
+                    <i class="fas fa-play"></i> Начать игру
+                </button>
+            </div>
+        </div>
+        
+        <div class="section" id="game-section">
+            <div class="question-container">
+                <div class="question" id="question-text"></div>
+                <div class="answers" id="answers-container"></div>
+            </div>
+            <div class="progress-bar">
+                <div class="progress" id="progress-bar"></div>
+            </div>
+            <div class="controls">
+                <button class="control-btn" id="hint-btn">
+                    <i class="fas fa-lightbulb"></i> Подсказка
+                </button>
+                <button class="control-btn" id="next-btn" disabled>
+                    <i class="fas fa-arrow-right"></i> Следующий вопрос
+                </button>
+            </div>
+        </div>
+        
+        <div class="section" id="result-section">
+            <div class="result" id="result-container">
+                <h3><i class="fas fa-trophy"></i> Игра завершена!</h3>
+                <p><i class="fas fa-book"></i> Тема: <span id="result-topic"></span></p>
+                <p><i class="fas fa-star"></i> Твой результат: <span id="result-score"></span> баллов</p>
+                <p><i class="fas fa-check-circle"></i> Правильных ответов: <span id="correct-answers"></span> из 10</p>
+                <p id="result-message"></p>
+                <div class="controls">
+                    <button class="control-btn" id="restart-btn">
+                        <i class="fas fa-redo"></i> Играть снова
                     </button>
-                </div>
-
-                <!-- Математические задачи -->
-                <div class="panel tasks-panel" id="tasksPanel" style="display: none;">
-                    <h2><i class="fas fa-tasks"></i> Реши примеры</h2>
-                    <div class="problems-grid" id="problemsList">
-                        <!-- Задачи будут здесь -->
-                    </div>
-                </div>
-
-                <!-- Палитра цветов -->
-                <div class="panel palette-panel">
-                    <h2><i class="fas fa-palette"></i> Палитра цветов</h2>
-                    <div class="palette-grid" id="colorPalette">
-                        <!-- Цвета будут здесь -->
-                    </div>
-                    <div class="current-color-display">
-                        <div class="current-color" id="currentColor"></div>
-                        <span>Текущий цвет</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Правая часть: раскраска -->
-            <div class="right-panel">
-                <div class="panel canvas-panel">
-                    <div class="canvas-header">
-                        <h2><i class="fas fa-paint-brush"></i> Раскрась картинку</h2>
-                        <div class="canvas-tools">
-                            <div class="tool-buttons">
-                                <button class="tool-btn active" data-tool="brush" title="Кисть">
-                                    <i class="fas fa-paint-brush"></i>
-                                </button>
-                                <button class="tool-btn" data-tool="fill" title="Заливка">
-                                    <i class="fas fa-fill-drip"></i>
-                                </button>
-                                <button class="tool-btn" data-tool="eraser" title="Ластик">
-                                    <i class="fas fa-eraser"></i>
-                                </button>
-                            </div>
-                            <div class="brush-controls">
-                                <span>Размер:</span>
-                                <input type="range" id="brushSize" min="1" max="30" value="5">
-                                <span id="brushSizeValue">5</span>
-                            </div>
-                            <button id="clearBtn" class="btn clear-btn">
-                                <i class="fas fa-trash"></i> Очистить
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <div class="canvas-container">
-                        <canvas id="gameCanvas" width="800" height="600"></canvas>
-                        <div class="canvas-overlay">
-                            <div class="overlay-text">
-                                <i class="fas fa-lock"></i>
-                                <p>Решайте примеры слева,<br>чтобы открыть цвета</p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="canvas-status">
-                        <div class="status-item">
-                            <i class="fas fa-check-circle"></i>
-                            <span>Решено: <span id="solvedCount">0</span>/12</span>
-                        </div>
-                        <button id="finishGameBtn" class="btn finish-btn" disabled>
-                            <i class="fas fa-flag-checkered"></i> Завершить игру
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </main>
-
-        <!-- Модальное окно результатов -->
-        <div class="modal-overlay" id="resultsModal" style="display: none;">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h2><i class="fas fa-trophy"></i> Игра завершена!</h2>
-                    <button class="close-modal" id="closeModal">&times;</button>
-                </div>
-                
-                <div class="modal-body">
-                    <div class="results-summary">
-                        <div class="result-card">
-                            <div class="result-icon">
-                                <i class="fas fa-user-graduate"></i>
-                            </div>
-                            <div class="result-info">
-                                <h3>Ученик</h3>
-                                <p id="resultStudentName">-</p>
-                            </div>
-                        </div>
-                        
-                        <div class="result-card">
-                            <div class="result-icon">
-                                <i class="fas fa-clock"></i>
-                            </div>
-                            <div class="result-info">
-                                <h3>Время</h3>
-                                <p id="resultTime">00:00</p>
-                            </div>
-                        </div>
-                        
-                        <div class="result-card">
-                            <div class="result-icon">
-                                <i class="fas fa-star"></i>
-                            </div>
-                            <div class="result-info">
-                                <h3>Задачи</h3>
-                                <p id="resultTasks">0/12</p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="results-actions">
-                        <h3><i class="fas fa-paper-plane"></i> Отправить результаты</h3>
-                        <p class="email-notice">Результаты будут отправлены на: <strong>vadimkut9@gmail.com</strong></p>
-                        
-                        <div class="action-buttons">
-                            <button id="sendResultsBtn" class="btn send-btn">
-                                <i class="fas fa-paper-plane"></i> Отправить учителю
-                            </button>
-                            <button id="newGameBtn" class="btn newgame-btn">
-                                <i class="fas fa-redo"></i> Новая игра
-                            </button>
-                        </div>
-                        
-                        <div class="status-message" id="sendStatus"></div>
-                    </div>
+                    <button class="control-btn" id="change-topic-btn">
+                        <i class="fas fa-exchange-alt"></i> Выбрать другую тему
+                    </button>
                 </div>
             </div>
         </div>
-
-        <footer>
-            <p>Образовательная игра по математике © 2024 | Решай примеры и раскрашивай картинку!</p>
-        </footer>
     </div>
 
-    <script src="game.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
